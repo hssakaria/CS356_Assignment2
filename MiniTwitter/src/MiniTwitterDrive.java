@@ -8,9 +8,10 @@ public class MiniTwitterDrive {
 	 **********************************************/
 	AdminTwitter adminTwitter = new AdminTwitter();
 	adminTwitter.AdminWindow();
-//	UserTwitterUI user = new UserTwitterUI();
-//	user.UserTwitter();
-	
+		
+		// singleton design pattern. Only one instance of a class
+//		UserTwitterUI.getUserTwitterInstance().UserTwitter(); 
+
 	}
 
 }
