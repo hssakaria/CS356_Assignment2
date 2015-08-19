@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -68,17 +70,29 @@ public class AdminTwitter {
 		groupIDTextArea.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
 		groupIDTextArea.setForeground(UIManager.getColor("InternalFrame.borderHighlight"));
 		userAddBtn = new Button();
-		userAddBtn.setForeground(UIManager.getColor("RadioButton.light"));
+			userAddBtn.setForeground(UIManager.getColor("RadioButton.light"));
 			userAddBtn.setLabel("Add User");
 			
 		groupAddBtn = new Button();
-		groupAddBtn.setForeground(UIManager.getColor("InternalFrame.borderHighlight"));
+			groupAddBtn.setForeground(UIManager.getColor("InternalFrame.borderHighlight"));
 			groupAddBtn.setLabel("Add Group");
+		
 			
 		userViewBtn = new Button();
-		userViewBtn.setForeground(UIManager.getColor("InternalFrame.activeTitleForeground"));
-		userViewBtn.setBackground(UIManager.getColor("FormattedTextField.inactiveForeground"));
+			userViewBtn.setForeground(UIManager.getColor("InternalFrame.activeTitleForeground"));
+			userViewBtn.setBackground(UIManager.getColor("FormattedTextField.inactiveForeground"));
 			userViewBtn.setLabel("Open User View");
+			
+			userViewBtn.addActionListener(new ActionListener(){
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					UserTwitterUI.getUserTwitterInstance().UserTwitter(); 
+
+				}
+				
+
+			});
 			
 		totalUserBtn = new Button();
 		totalUserBtn.setForeground(SystemColor.controlHighlight);
@@ -130,12 +144,6 @@ public class AdminTwitter {
 			rightPanel.add(treeView);
 		    rightPanel.setBorder(BorderFactory.createLineBorder(Color.gray,10));
 
-		
-	
-	    
-		
-		
-		
 		
 		panel.add(rightPanel);
 		panel.add(leftPanel);
