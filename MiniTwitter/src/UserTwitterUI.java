@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 /****************************************************
  * UserTwitterUI contains a singleton design pattern.
@@ -61,6 +62,8 @@ public class UserTwitterUI {
 	 ****************************************************/
 	private void initialize() {
 		
+		Border border = BorderFactory.createLineBorder(Color.BLACK);
+
 		
 		frame = new JFrame("User UI");
 		
@@ -75,10 +78,14 @@ public class UserTwitterUI {
 					 
 						userIDTA = new JTextArea();
 						userIDTA.setText("User ID");
+						userIDTA.setBorder(BorderFactory.createCompoundBorder(border, 
+					            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+						
 						panel1.add(userIDTA);
 						
 						followUserBtn = new JButton();
 						followUserBtn.setText("Follow User");
+						followUserBtn.setForeground(Color.BLACK);
 					panel1.add(followUserBtn);	
 				
 			mainPanel.add(panel1);
@@ -108,11 +115,15 @@ public class UserTwitterUI {
 			 * 			 and added to mainPanel.
 			 ****************************************************/
 				panel3 = new JPanel(new GridLayout(1,2));
-					panel3.setBackground(Color.cyan);
+					//panel3.setBackground(Color.cyan);
 						tweetMsgTA = new JTextArea();
 						tweetMsgTA.setText("Tweet Message");
+						tweetMsgTA.setBorder(BorderFactory.createCompoundBorder(border, 
+					            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+						
 						postTweetBtn = new JButton();
 						postTweetBtn.setText("Post Tweet");
+						postTweetBtn.setForeground(Color.BLACK);
 						
 					panel3.add(tweetMsgTA);	
 					panel3.add(postTweetBtn);

@@ -1,16 +1,17 @@
 import java.awt.*;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
-public class AdminTwitter {
-	
+public class AdminTwitter{
 
 	private JFrame frame;
-	private JPanel panel;
+	private JPanel mainPanel;
 	private JPanel leftPanel;
 	private JPanel rightPanel;
 	private JPanel topPanel;
@@ -59,100 +60,159 @@ public class AdminTwitter {
 	 **************************************/
 	private void initialize() {
 		
-		
-		treeView = new JTree();
-		userIDTextArea = new JTextArea("UserId", 1,10);
-		userIDTextArea.setBackground(UIManager.getColor("Slider.background"));
-		userIDTextArea.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
-		userIDTextArea.setForeground(UIManager.getColor("TabbedPane.light"));
-		groupIDTextArea = new JTextArea("GroupID",5,20);
-		groupIDTextArea.setBackground(UIManager.getColor("InternalFrame.background"));
-		groupIDTextArea.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
-		groupIDTextArea.setForeground(UIManager.getColor("InternalFrame.borderHighlight"));
-		userAddBtn = new Button();
-			userAddBtn.setForeground(UIManager.getColor("RadioButton.light"));
-			userAddBtn.setLabel("Add User");
-			
-		groupAddBtn = new Button();
-			groupAddBtn.setForeground(UIManager.getColor("InternalFrame.borderHighlight"));
-			groupAddBtn.setLabel("Add Group");
-		
-			
-		userViewBtn = new Button();
-			userViewBtn.setForeground(UIManager.getColor("InternalFrame.activeTitleForeground"));
-			userViewBtn.setBackground(UIManager.getColor("FormattedTextField.inactiveForeground"));
-			userViewBtn.setLabel("Open User View");
-			
-			userViewBtn.addActionListener(new ActionListener(){
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					UserTwitterUI.getUserTwitterInstance().UserTwitter(); 
-
-				}
-				
-
-			});
-			
-		totalUserBtn = new Button();
-		totalUserBtn.setForeground(SystemColor.controlHighlight);
-			totalUserBtn.setLabel("Show User Total");
-		totalGroupBtn = new Button();
-		totalGroupBtn.setForeground(SystemColor.controlHighlight);
-			totalGroupBtn.setLabel("Show Group Total");
-		totalMsgBtn = new Button();
-		totalMsgBtn.setForeground(UIManager.getColor("RadioButton.select"));
-			totalMsgBtn.setLabel("Show Total Messages");
-		positiveWordBtn = new Button();
-		positiveWordBtn.setForeground(UIManager.getColor("RadioButtonMenuItem.selectionBackground"));
-			positiveWordBtn.setLabel("Show Positive%");
-		
-		
 		frame = new JFrame("Mini Twitter by Hetal Sakaria");
-	
 		frame.setSize(650, 350);
+	
+		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		
-		/*JPanel*/
+		/*****************************************************
+		 * mainPanel- contains two sub panels (rightPanel and
+		 * 				leftPanel)
+		 ****************************************************/
+		mainPanel = new JPanel(new GridLayout(1,2));
 		
-		panel = new JPanel(new GridLayout(1,2));
-		    rightPanel = new JPanel();
-			leftPanel = new JPanel(new GridLayout(3,1));
-				topPanel = new JPanel(new GridLayout(2,2));
-				midPanel = new JPanel();
-				midPanel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-				midPanel.setBackground(UIManager.getColor("FormattedTextField.inactiveForeground"));
-				bottomPanel = new JPanel(new GridLayout(2,2));
+			/*****************************************************
+			 * rightPanel- contains treeView and added to mainPanel
+			 ****************************************************/
+			 rightPanel = new JPanel();
+			 DefaultMutableTreeNode root = new DefaultMutableTreeNode("CS356");
+			 DefaultTreeModel model =new DefaultTreeModel(root);
+			 //root.add(model);
+				treeView = new JTree(model);
+//			 treeView = new JTree();
+			 	rightPanel.add(treeView);
+			    //rightPanel.add(new JScrollPane(treeView));
+			    rightPanel.setBorder(BorderFactory.createLineBorder(Color.gray,10));
+	
+			mainPanel.add(rightPanel);
 			
-		    leftPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,10));
-		    leftPanel.add(topPanel);
-		    	topPanel.add(userIDTextArea);
-		    	topPanel.add(userAddBtn);
-		    	topPanel.add(groupIDTextArea);
-		    	topPanel.add(groupAddBtn);
-		    leftPanel.add(midPanel);
-		    	midPanel.add(userViewBtn);
-		    leftPanel.add(bottomPanel);
-		    	bottomPanel.add(totalUserBtn);
-		    	bottomPanel.add(totalGroupBtn);
-		    	bottomPanel.add(totalMsgBtn);
-		    	bottomPanel.add(positiveWordBtn);
-		    
-	//	   topPanel.setBorder(BorderFactory.createLineBorder(Color.gray,5));
-	//	   midPanel.setBorder(BorderFactory.createLineBorder(Color.gray,5));
-	//	   bottomPanel.setBorder(BorderFactory.createLineBorder(Color.gray,2));
-	//	   
-			rightPanel.add(treeView);
-		    rightPanel.setBorder(BorderFactory.createLineBorder(Color.gray,10));
+			/*****************************************************
+			 * leftPanel- contains three subpanels, top, mid, and
+			 * 			bottomPanel.
+			 * 			topPanel contains userIdTextArea, userAddBtn,
+			 * 			groupIDTextArea, and groudAddBtn
+			 * 			midPanel contains userViewBtn
+			 * 			bottomPanel contains four buttons which 
+			 * 			display the statistics.
+			 * 			leftPanel added to mainPanel.
+			 ****************************************************/
+			leftPanel = new JPanel(new GridLayout(3,1));
+			
+				leftPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,10));
+				topPanel = new JPanel(new GridLayout(2,2));
+//					
+//						/*****************************************************
+//						 *userIDTextArea
+//						 ****************************************************/
+						userIDTextArea = new JTextArea("UserId", 1,10);
+							userIDTextArea.setBackground(UIManager.getColor("Slider.background"));
+							userIDTextArea.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
+							userIDTextArea.setForeground(UIManager.getColor("TabbedPane.light"));
+							userIDTextArea.setBorder(BorderFactory.createCompoundBorder(border, 
+						            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+						/*****************************************************
+						 *groupIDTextArea
+						 ****************************************************/
+						groupIDTextArea = new JTextArea("GroupID",5,20);
+							groupIDTextArea.setBackground(UIManager.getColor("InternalFrame.background"));
+							groupIDTextArea.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
+							groupIDTextArea.setForeground(UIManager.getColor("InternalFrame.borderHighlight"));
+							groupIDTextArea.setBorder(BorderFactory.createCompoundBorder(border, 
+						            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+							
+						/*****************************************************
+//						 * userAddBtn
+//						 ****************************************************/
+						userAddBtn = new Button();
+							userAddBtn.setLabel("Add User");
+							userAddBtn.setBackground(Color.CYAN);
+							//userAddBtn.addActionListener(this);
+//							
+//						/*****************************************************
+//						 * groupAddBtn
+//						 ****************************************************/		
+						groupAddBtn = new Button();
+							groupAddBtn.setLabel("Add Group");
+							groupAddBtn.setBackground(Color.CYAN);
+				
+				 leftPanel.add(topPanel);
 
+//				 
+//				 
+				midPanel = new JPanel();
+				
+					midPanel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+					midPanel.setBackground(UIManager.getColor("FormattedTextField.inactiveForeground"));
+					/*****************************************************
+					 * userViewBtn - Display UserUI
+					 ****************************************************/		
+					userViewBtn = new Button();
+						userViewBtn.setBackground(Color.CYAN);
+						userViewBtn.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));
+						userViewBtn.setForeground(Color.BLACK);
+						userViewBtn.setLabel("Open User View");
+
+						userViewBtn.setPreferredSize(new Dimension(300,60));
+						/**********************************************************
+						 *when UserViewBtn gets trigger, it will instantiate UserUI
+						 *and display userTwitterUI using Singleton Pattern
+						 **********************************************************/
+						userViewBtn.addActionListener(new ActionListener(){
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								UserTwitterUI.getUserTwitterInstance().UserTwitter(); 
+							}
+						});
+						topPanel.add(userIDTextArea);
+				    	topPanel.add(userAddBtn);
+				    	topPanel.add(groupIDTextArea);
+				    	topPanel.add(groupAddBtn);
+	
+					midPanel.add(userViewBtn);
+				leftPanel.add(midPanel);
+				
+				
+				
+				bottomPanel = new JPanel(new GridLayout(2,2));
+
+					/*****************************************************
+					 * totalUserBtn
+					 ****************************************************/	
+					totalUserBtn = new Button();
+						totalUserBtn.setForeground(SystemColor.controlHighlight);
+						totalUserBtn.setLabel("Show User Total");
+						totalGroupBtn = new Button();
+						totalGroupBtn.setForeground(SystemColor.controlHighlight);
+						totalGroupBtn.setLabel("Show Group Total");
+					totalMsgBtn = new Button();
+						totalMsgBtn.setForeground(UIManager.getColor("RadioButton.select"));
+						totalMsgBtn.setLabel("Show Total Messages");
+					positiveWordBtn = new Button();
+						positiveWordBtn.setForeground(UIManager.getColor("RadioButtonMenuItem.selectionBackground"));
+						positiveWordBtn.setLabel("Show Positive%");
+					
+					bottomPanel.add(totalUserBtn);
+			    	bottomPanel.add(totalGroupBtn);
+			    	bottomPanel.add(totalMsgBtn);
+			    	bottomPanel.add(positiveWordBtn);
+			    leftPanel.add(bottomPanel);
+		    	
+		mainPanel.add(leftPanel);
 		
-		panel.add(rightPanel);
-		panel.add(leftPanel);
-		//frame.add(rightPanel);
-		//frame.add(pane);
-		frame.getContentPane().add(panel);
+		frame.add(mainPanel);
+		frame.setVisible(true);
 		frame.setLocationRelativeTo(null); /* location center */
-		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+	
+	/*****************************************************
+	 * actionPerformed implements all the action listioners
+	 ****************************************************/
+//	@Override
+//	public void actionPerformed(ActionEvent e) {
+//		
+//	}
 
 }
