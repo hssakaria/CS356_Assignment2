@@ -10,6 +10,7 @@ import javax.swing.border.Border;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.border.LineBorder;
@@ -31,6 +32,7 @@ public class AdminTwitter implements ActionListener ,TreeSelectionListener {
 	private JTextField groupIDTextField;
 	private JLabel groupdIDLable;
 	private JLabel userIDLabel;
+	private JLabel messageLabel;
 	private Button userAddBtn;
 	private Button groupAddBtn;
 	private Button userViewBtn;
@@ -39,10 +41,9 @@ public class AdminTwitter implements ActionListener ,TreeSelectionListener {
 	private Button totalMsgBtn;
 	private Button positiveWordBtn;
 	private JDialog msgDL;
-	DefaultMutableTreeNode root = new DefaultMutableTreeNode("CS356");
+	DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
 	 DefaultTreeModel treeModel;
-	User newUser;
-	User newGroupUser;
+	GroupUser newUser;
 	java.util.List<String> idsList;
 	private int count =0;
 	
@@ -78,9 +79,7 @@ public class AdminTwitter implements ActionListener ,TreeSelectionListener {
 	 * Initialize the contents of the frame.
 	 **************************************/
 	private void initialize() {
-		
-		idsList = new ArrayList();
-		
+				
 		frame = new JFrame("Mini Twitter by Hetal Sakaria");
 		frame.setSize(650, 450);
 		
@@ -95,20 +94,16 @@ public class AdminTwitter implements ActionListener ,TreeSelectionListener {
 		
 			/*****************************************************
 			 * rightPanel- contains treeView and added to mainPanel
-			 ****************************************************/
-			 //rightPanel = new JPanel();
-//			 root = new DefaultMutableTreeNode("CS356");
-			
-//			 DefaultMutableTreeNode model =new DefaultMutableTreeNode(root);
-			 
-			 
-//		
+			 ****************************************************/ 
+	
 			 treeModel = new DefaultTreeModel( root );	
-			 
 			 treeView = new JTree(treeModel);
-		
+			 
+			 treeView.setForeground(UIManager.getColor("Button.light"));
+			 
 			 treeView.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-			 treeView.setBackground(UIManager.getColor("Button.background"));
+			// treeView.setBackground(UIManager.getColor("Button.background"));
+			// treeView.setFocusable(true);
 
 			 treeView.addTreeSelectionListener(this);
 //			 treeView.addTreeSelectionListener(new TreeSelectionListener(){
@@ -138,16 +133,26 @@ public class AdminTwitter implements ActionListener ,TreeSelectionListener {
 			 * 			display the statistics.
 			 * 			leftPanel added to mainPanel.
 			 ****************************************************/
-			leftPanel = new JPanel(new GridLayout(3,1));
+			leftPanel = new JPanel(new GridLayout(4,1));
 			
 				leftPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,10));
+				
+				messageLabel = new JLabel();
+				messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				messageLabel.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 14));
+				messageLabel.setBackground(UIManager.getColor("CheckBox.disabledText"));
+					messageLabel.setForeground(Color.RED);
+				
+				leftPanel.add(messageLabel);
+				
 				topPanel = new JPanel(new GridLayout(2,2));
 					//userIDLabel = new JLabel("UserID:");
 					//topPanel.add(userIDLabel);
 						/*****************************************************
 						 *userIDTextArea
 						 ****************************************************/
-						userIDTextField = new JTextField("UserID",10);
+						userIDTextField = new JTextField(10);
+							
 							userIDTextField.setBackground(UIManager.getColor("Slider.background"));
 							userIDTextField.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
 							userIDTextField.setForeground(UIManager.getColor("TabbedPane.light"));
@@ -170,58 +175,11 @@ public class AdminTwitter implements ActionListener ,TreeSelectionListener {
 						 ****************************************************/
 						userAddBtn = new Button();
 							userAddBtn.setLabel("Add User");
-							userAddBtn.setBackground(Color.CYAN);
-							
 							
 							/*********************
 							 * ActionListener
 							 *********************/
 							userAddBtn.addActionListener(this);
-							
-							
-//							
-//							userAddBtn.addActionListener(new ActionListener(){
-//								@Override
-//								public void actionPerformed(ActionEvent e) {
-//									
-//									newUserID = userIDTextField.getText();
-//									userIDTextField.setText("");
-//									//newUser = new User(newUserID);
-//									
-//									newUser = new CreateUser(newUserID);
-//									newUser.add(newUser);
-//									
-//									//newGroupUser.add(newUser);//add(newUser);
-////									System.out.println(newUserID);
-////									user = new User(newUserID);
-////									user.add(user);
-//									
-//									//root.add(new DefaultMutableTreeNode(newUserID));
-//									
-////									if(newUser.compareUserID(newUserID) == true){
-////										
-////										diplayMSG();
-////										
-////											
-////										
-////									}
-////									else {
-//////										//add
-////
-////										user.add(user);
-////										System.out.println(newUserID);
-////									//	root.add(new DefaultMutableTreeNode(newUserID));
-////										//root.add(new  DefaultMutableTreeNode(id));
-////										
-////										for(User u : user.getUser()){
-////											System.out.println(u);
-////											
-////										}
-////									}
-//									
-//								}
-//								
-//							});
 							
 						/*****************************************************
 						 * groupAddBtn
@@ -229,35 +187,13 @@ public class AdminTwitter implements ActionListener ,TreeSelectionListener {
 						groupAddBtn = new Button();
 						
 							groupAddBtn.setLabel("Add Group");
-							groupAddBtn.setBackground(Color.CYAN);
 							
 							/******************
 							 * ActionListener
 							 *****************/
 							groupAddBtn.addActionListener(this);
 							
-//							groupAddBtn.addActionListener(new ActionListener(){
-//								
-//								//String id;
-//								@Override
-//								public void actionPerformed(ActionEvent e) {
-//									
-//									newUserID = groupIDTextField .getText();
-//									
-//									
-//									newGroupUser = new GroupUser(newUserID);
-//									System.out.println("Group Btn clicked--" + newUserID);
-//
-//									groupIDTextField.setText("");
-//									
-//									newGroupUser.print();
-//									
-//									
-//									
-//								}
-//								
-//							});
-				
+//							
 				 leftPanel.add(topPanel);
 				 
 				midPanel = new JPanel();
@@ -322,89 +258,88 @@ public class AdminTwitter implements ActionListener ,TreeSelectionListener {
 		mainPanel.add(leftPanel);
 		
 		frame.getContentPane().add(mainPanel);
-		frame.setVisible(true);
+		frame.pack();
 		frame.setLocationRelativeTo(null); /* location center */
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	
-	protected void diplayMSG() {
-				
-		JOptionPane.showMessageDialog(frame, this, "UserID exists", 0);
-	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		String ids;
-		
+		String msg;
 		
 		if(e.getActionCommand().equals("Add User")){
 			
 			ids = userIDTextField.getText();
+			msg = "Please enter UserID!";
 			
-
-			
-			checkIFidExist(ids);
-			
-			
-//			root.add(new DefaultMutableTreeNode(ids));
-			
-			newUser = new CreateUser(ids);
+			addUser(ids, msg);
 			userIDTextField.setText("");
-			newUser.add(newUser);
-			newUser.print();
-			treeModel.reload(root);		
+			
+//			
 		}
 			
-	
 		
 		if(e.getActionCommand().equals("Add Group")){
-			
+				
 			ids = groupIDTextField.getText();
-		
+			msg = "Please enter GroupUserID!";
 			
-			checkIFidExist(ids);
-//			root.add(new DefaultMutableTreeNode(ids));
-//			
-//			
-			newGroupUser = new GroupUser(ids);
-
-			newGroupUser.add(newUser);
+			addUser(ids, msg);
 			groupIDTextField.setText("");
-			newGroupUser.print();
-			treeModel.reload(root);	
+//					
+//			if(!ids.equals("")){
+//				
+//			//DefaultMutableTreeNode newNode =new DefaultMutableTreeNode(ids);
+//				
+//				root.add(new DefaultMutableTreeNode(ids));
+//			
+//				newUser = new GroupUser(ids);
+//				
+//				for(GroupUser g : newUser.getUser()){
+//					System.out.println(newUser.getUser().toString());
+//				}
+//			
+//				newUser.add(newUser);
+//				
+//				System.out.println(newUser);
+//				groupIDTextField.setText("");
+//				
+//				treeModel.reload(root);	
+//				model.reload();
+//			}
 		}
 		
-		System.out.println(idsList);
+		//System.out.println(idsList);
 //	
+
+
+	
 	}
 
-	private void checkIFidExist(String ids) {
+	private void addUser(String ids, String msg) {
 		
-//		
-//		if(!newGroupUser.users.contains(ids))
-//		{
-//			newUser.add(newUser);
-//		}
-//		else{
-//			System.out.println(ids + " already exists. Please create another one!");
-//
-//			
-//		}
-		
-		if(!idsList.contains(ids)){
-			idsList.add(ids);
-			root.add(new DefaultMutableTreeNode(ids));
+		if(!ids.equals("")){
 			
+			newUser = new GroupUser(ids);
 			
-			count++;
+			newUser.add(newUser);
+				
+				userIDTextField.setText("");
+				
+				System.out.println(newUser);
+				
+				root.add(new DefaultMutableTreeNode(ids));
+				
+				treeModel.reload(root);	
 		}
 		else{
-		    JOptionPane.showMessageDialog(frame, "UserID:  " + ids + "  already exists.\nPlease try again!");
+			messageLabel.setText(msg);
 		}
-		
 	}
 
 	@Override
@@ -413,7 +348,15 @@ public class AdminTwitter implements ActionListener ,TreeSelectionListener {
 //		
 		 DefaultMutableTreeNode parentNode = 
 				 (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
-		 
+//		
+//			DefaultTreeCellRenderer renderer = 
+//					(DefaultTreeCellRenderer) treeView.getCellRenderer();
+//			 renderer.setTextSelectionColor(Color.white);
+//		        renderer.setBackgroundSelectionColor(Color.blue);
+//		        renderer.setBorderSelectionColor(Color.black);
+		
+			
+			
 		root = parentNode;
 		
 //		System.out.println(e.getPath().getLastPathComponent());
