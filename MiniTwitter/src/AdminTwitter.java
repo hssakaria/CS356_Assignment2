@@ -1,14 +1,22 @@
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import javax.swing.border.LineBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 
-public class AdminTwitter{
+public class AdminTwitter implements ActionListener ,TreeSelectionListener {
 
 	private JFrame frame;
 	private JPanel mainPanel;
@@ -19,8 +27,10 @@ public class AdminTwitter{
 	private JPanel bottomPanel;
 
 	private JTree treeView;
-	private JTextArea userIDTextArea;
-	private JTextArea groupIDTextArea;
+	private JTextField userIDTextField;
+	private JTextField groupIDTextField;
+	private JLabel groupdIDLable;
+	private JLabel userIDLabel;
 	private Button userAddBtn;
 	private Button groupAddBtn;
 	private Button userViewBtn;
@@ -28,8 +38,16 @@ public class AdminTwitter{
 	private Button totalGroupBtn;
 	private Button totalMsgBtn;
 	private Button positiveWordBtn;
+	private JDialog msgDL;
+	DefaultMutableTreeNode root = new DefaultMutableTreeNode("CS356");
+	 DefaultTreeModel treeModel;
+	User newUser;
+	User newGroupUser;
+	java.util.List<String> idsList;
+	private int count =0;
 	
-
+	
+	//ArrayList<String> idsList; 
 	/***************************
 	 * Launch the application.
 	 ***************************/
@@ -53,6 +71,7 @@ public class AdminTwitter{
 	 *****************************/
 	public AdminTwitter() {
 		initialize();
+		
 	}
 
 	/**************************************
@@ -60,8 +79,11 @@ public class AdminTwitter{
 	 **************************************/
 	private void initialize() {
 		
+		idsList = new ArrayList();
+		
 		frame = new JFrame("Mini Twitter by Hetal Sakaria");
-		frame.setSize(650, 350);
+		frame.setSize(650, 450);
+		
 	
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		
@@ -74,17 +96,37 @@ public class AdminTwitter{
 			/*****************************************************
 			 * rightPanel- contains treeView and added to mainPanel
 			 ****************************************************/
-			 rightPanel = new JPanel();
-			 DefaultMutableTreeNode root = new DefaultMutableTreeNode("CS356");
-			 DefaultTreeModel model =new DefaultTreeModel(root);
-			 //root.add(model);
-				treeView = new JTree(model);
-//			 treeView = new JTree();
-			 	rightPanel.add(treeView);
-			    //rightPanel.add(new JScrollPane(treeView));
-			    rightPanel.setBorder(BorderFactory.createLineBorder(Color.gray,10));
-	
-			mainPanel.add(rightPanel);
+			 //rightPanel = new JPanel();
+//			 root = new DefaultMutableTreeNode("CS356");
+			
+//			 DefaultMutableTreeNode model =new DefaultMutableTreeNode(root);
+			 
+			 
+//		
+			 treeModel = new DefaultTreeModel( root );	
+			 
+			 treeView = new JTree(treeModel);
+		
+			 treeView.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+			 treeView.setBackground(UIManager.getColor("Button.background"));
+
+			 treeView.addTreeSelectionListener(this);
+//			 treeView.addTreeSelectionListener(new TreeSelectionListener(){
+//
+//				@Override
+//				public void valueChanged(TreeSelectionEvent e) {
+//					 DefaultMutableTreeNode node = (DefaultMutableTreeNode) e
+//					          .getPath().getLastPathComponent();
+//					      System.out.println("You selected " + node);					
+//				}
+//				 
+//			 });
+				
+
+			 mainPanel.setBorder(BorderFactory.createLineBorder(Color.gray,10));
+				
+				mainPanel.add(new JScrollPane(treeView ));
+			
 			
 			/*****************************************************
 			 * leftPanel- contains three subpanels, top, mid, and
@@ -100,45 +142,124 @@ public class AdminTwitter{
 			
 				leftPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,10));
 				topPanel = new JPanel(new GridLayout(2,2));
-//					
-//						/*****************************************************
-//						 *userIDTextArea
-//						 ****************************************************/
-						userIDTextArea = new JTextArea("UserId", 1,10);
-							userIDTextArea.setBackground(UIManager.getColor("Slider.background"));
-							userIDTextArea.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
-							userIDTextArea.setForeground(UIManager.getColor("TabbedPane.light"));
-							userIDTextArea.setBorder(BorderFactory.createCompoundBorder(border, 
+					//userIDLabel = new JLabel("UserID:");
+					//topPanel.add(userIDLabel);
+						/*****************************************************
+						 *userIDTextArea
+						 ****************************************************/
+						userIDTextField = new JTextField("UserID",10);
+							userIDTextField.setBackground(UIManager.getColor("Slider.background"));
+							userIDTextField.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
+							userIDTextField.setForeground(UIManager.getColor("TabbedPane.light"));
+							userIDTextField.setBorder(BorderFactory.createCompoundBorder(border, 
 						            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 						/*****************************************************
 						 *groupIDTextArea
 						 ****************************************************/
-						groupIDTextArea = new JTextArea("GroupID",5,20);
-							groupIDTextArea.setBackground(UIManager.getColor("InternalFrame.background"));
-							groupIDTextArea.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
-							groupIDTextArea.setForeground(UIManager.getColor("InternalFrame.borderHighlight"));
-							groupIDTextArea.setBorder(BorderFactory.createCompoundBorder(border, 
+//						groupdIDLable = new JLabel("GroupID:");
+//						topPanel.add(groupdIDLable);
+						groupIDTextField = new JTextField(10);
+							groupIDTextField.setBackground(UIManager.getColor("InternalFrame.background"));
+							groupIDTextField.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
+							groupIDTextField.setForeground(UIManager.getColor("InternalFrame.borderHighlight"));
+							groupIDTextField.setBorder(BorderFactory.createCompoundBorder(border, 
 						            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 							
 						/*****************************************************
-//						 * userAddBtn
-//						 ****************************************************/
+						 * userAddBtn
+						 ****************************************************/
 						userAddBtn = new Button();
 							userAddBtn.setLabel("Add User");
 							userAddBtn.setBackground(Color.CYAN);
-							//userAddBtn.addActionListener(this);
+							
+							
+							/*********************
+							 * ActionListener
+							 *********************/
+							userAddBtn.addActionListener(this);
+							
+							
 //							
-//						/*****************************************************
-//						 * groupAddBtn
-//						 ****************************************************/		
+//							userAddBtn.addActionListener(new ActionListener(){
+//								@Override
+//								public void actionPerformed(ActionEvent e) {
+//									
+//									newUserID = userIDTextField.getText();
+//									userIDTextField.setText("");
+//									//newUser = new User(newUserID);
+//									
+//									newUser = new CreateUser(newUserID);
+//									newUser.add(newUser);
+//									
+//									//newGroupUser.add(newUser);//add(newUser);
+////									System.out.println(newUserID);
+////									user = new User(newUserID);
+////									user.add(user);
+//									
+//									//root.add(new DefaultMutableTreeNode(newUserID));
+//									
+////									if(newUser.compareUserID(newUserID) == true){
+////										
+////										diplayMSG();
+////										
+////											
+////										
+////									}
+////									else {
+//////										//add
+////
+////										user.add(user);
+////										System.out.println(newUserID);
+////									//	root.add(new DefaultMutableTreeNode(newUserID));
+////										//root.add(new  DefaultMutableTreeNode(id));
+////										
+////										for(User u : user.getUser()){
+////											System.out.println(u);
+////											
+////										}
+////									}
+//									
+//								}
+//								
+//							});
+							
+						/*****************************************************
+						 * groupAddBtn
+						 ****************************************************/		
 						groupAddBtn = new Button();
+						
 							groupAddBtn.setLabel("Add Group");
 							groupAddBtn.setBackground(Color.CYAN);
+							
+							/******************
+							 * ActionListener
+							 *****************/
+							groupAddBtn.addActionListener(this);
+							
+//							groupAddBtn.addActionListener(new ActionListener(){
+//								
+//								//String id;
+//								@Override
+//								public void actionPerformed(ActionEvent e) {
+//									
+//									newUserID = groupIDTextField .getText();
+//									
+//									
+//									newGroupUser = new GroupUser(newUserID);
+//									System.out.println("Group Btn clicked--" + newUserID);
+//
+//									groupIDTextField.setText("");
+//									
+//									newGroupUser.print();
+//									
+//									
+//									
+//								}
+//								
+//							});
 				
 				 leftPanel.add(topPanel);
-
-//				 
-//				 
+				 
 				midPanel = new JPanel();
 				
 					midPanel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
@@ -164,9 +285,9 @@ public class AdminTwitter{
 								UserTwitterUI.getUserTwitterInstance().UserTwitter(); 
 							}
 						});
-						topPanel.add(userIDTextArea);
+						topPanel.add(userIDTextField);
 				    	topPanel.add(userAddBtn);
-				    	topPanel.add(groupIDTextArea);
+				    	topPanel.add(groupIDTextField);
 				    	topPanel.add(groupAddBtn);
 	
 					midPanel.add(userViewBtn);
@@ -200,19 +321,141 @@ public class AdminTwitter{
 		    	
 		mainPanel.add(leftPanel);
 		
-		frame.add(mainPanel);
+		frame.getContentPane().add(mainPanel);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null); /* location center */
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	
-	/*****************************************************
-	 * actionPerformed implements all the action listioners
-	 ****************************************************/
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
+	protected void diplayMSG() {
+				
+		JOptionPane.showMessageDialog(frame, this, "UserID exists", 0);
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		String ids;
+		
+		
+		if(e.getActionCommand().equals("Add User")){
+			
+			ids = userIDTextField.getText();
+			
+
+			
+			checkIFidExist(ids);
+			
+			
+//			root.add(new DefaultMutableTreeNode(ids));
+			
+			newUser = new CreateUser(ids);
+			userIDTextField.setText("");
+			newUser.add(newUser);
+			newUser.print();
+			treeModel.reload(root);		
+		}
+			
+	
+		
+		if(e.getActionCommand().equals("Add Group")){
+			
+			ids = groupIDTextField.getText();
+		
+			
+			checkIFidExist(ids);
+//			root.add(new DefaultMutableTreeNode(ids));
+//			
+//			
+			newGroupUser = new GroupUser(ids);
+
+			newGroupUser.add(newUser);
+			groupIDTextField.setText("");
+			newGroupUser.print();
+			treeModel.reload(root);	
+		}
+		
+		System.out.println(idsList);
+//	
+	}
+
+	private void checkIFidExist(String ids) {
+		
 //		
-//	}
+//		if(!newGroupUser.users.contains(ids))
+//		{
+//			newUser.add(newUser);
+//		}
+//		else{
+//			System.out.println(ids + " already exists. Please create another one!");
+//
+//			
+//		}
+		
+		if(!idsList.contains(ids)){
+			idsList.add(ids);
+			root.add(new DefaultMutableTreeNode(ids));
+			
+			
+			count++;
+		}
+		else{
+		    JOptionPane.showMessageDialog(frame, "UserID:  " + ids + "  already exists.\nPlease try again!");
+		}
+		
+	}
+
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+//		
+//		
+		 DefaultMutableTreeNode parentNode = 
+				 (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
+		 
+		root = parentNode;
+		
+//		System.out.println(e.getPath().getLastPathComponent());
+		
+		
+	}
 
 }
+
+
+//treeView.addTreeSelectionListener(new TreeSelectionListener() {
+//    public void valueChanged(TreeSelectionEvent e) {
+//      DefaultMutableTreeNode node = (DefaultMutableTreeNode) e
+//          .getPath().getLastPathComponent();
+//      System.out.println("You selected " + node);
+//    }
+//  });
+
+
+
+//
+//private JTree getTree()
+//{
+//    String[] birds = {
+//        // branches  |<-- child leaf nodes -->|
+//        "hawks",   "gray",    "red-tailed", "rough-legged",
+//        "falcons", "harrier", "kestrel",    "kite", 
+//        "owls",    "barred",  "saw-whet",   "snowy"
+//    };
+//    DefaultMutableTreeNode root = new DefaultMutableTreeNode("birds");
+//    DefaultMutableTreeNode[] nodes = new DefaultMutableTreeNode[birds.length];
+//    for(int j = 0; j < nodes.length; j++)
+//        nodes[j] = new DefaultMutableTreeNode(birds[j]);
+//    for(int j = 0; j < 9; j += 4)
+//    {
+//        root.insert(nodes[j], j % 3);
+//        for(int k = j + 1; k < j + 4; k++)
+//            nodes[j].insert(nodes[k], k - j - 1);
+//    }
+//    DefaultTreeModel model = new DefaultTreeModel(root);
+//    tree = new JTree(model);
+//    tree.addTreeSelectionListener(this);
+//    return tree;
+//}
+

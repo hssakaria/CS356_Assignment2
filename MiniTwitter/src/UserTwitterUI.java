@@ -20,10 +20,10 @@ public class UserTwitterUI {
 	private JPanel panel4;
 	private JButton followUserBtn;
 	private JButton postTweetBtn;
-	private JTextArea userIDTA;
+	private JTextField userIDTextField;
 	private JTextArea tweetMsgTA;
 
-
+	private String userId;
 	/*****************************************************
 	 * Launch the application.
 	 *****************************************************/
@@ -52,9 +52,12 @@ public class UserTwitterUI {
 	/****************************************************
 	 * Create the application.
 	 ****************************************************/
-	public UserTwitterUI() {
+	public UserTwitterUI(){
 
 		initialize();
+	}
+	public UserTwitterUI(String userId) {
+		this.setUserId(userId);
 	}
 
 	/****************************************************
@@ -76,12 +79,11 @@ public class UserTwitterUI {
 				panel1 = new JPanel(new GridLayout(1,2));
 					panel1.setBackground(Color.cyan);
 					 
-						userIDTA = new JTextArea();
-						userIDTA.setText("User ID");
-						userIDTA.setBorder(BorderFactory.createCompoundBorder(border, 
+						userIDTextField = new JTextField(10);
+						userIDTextField.setBorder(BorderFactory.createCompoundBorder(border, 
 					            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 						
-						panel1.add(userIDTA);
+						panel1.add(userIDTextField);
 						
 						followUserBtn = new JButton();
 						followUserBtn.setText("Follow User");
@@ -163,6 +165,20 @@ public class UserTwitterUI {
 		frame.add(mainPanel);
 		frame.setSize(550, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	
+	
+	/*****************************
+	 * Accessor methods for UserID
+	 * @return
+	 ******************************/
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 }
