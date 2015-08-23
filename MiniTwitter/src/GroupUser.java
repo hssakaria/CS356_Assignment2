@@ -1,59 +1,73 @@
+/****************************************************************
+ * Using Composite Design Patter. 
+ * GroupUser is a composite of multiple Users
+ * GroupUser act as a Parent Node. and Users are the Children
+ ****************************************************************/
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class GroupUser implements User{
+public class GroupUser implements UserComponent {
 	
-	private String userID;
-	List<User> users = new ArrayList<User>();
+	private String groupID;
+	private GroupUser groupUser; //parentGroup
 	
-	
-	//constructor
-//	public User(){
-//		
-//	}
-	public GroupUser(String userID){
-		this.userID = userID;
-		
-		//user = new ArrayList<User>();
-	}
-	
-	public void add(User user){
-		users.add(user);
-		
-	}
-	
-	public String getUserID(){
-		return userID;
-	}
-	public List<User> getUser(){
-		return users;
+	private List<User> userList;
+
+	public String getGroupID() {
+		return groupID;
 	}
 
-	public boolean compareUserID(String newUserID){
-		if(users.contains(newUserID)){
-			return true;
-		}
-		else 
-			return false;
+	public void setGroupID(String groupID) {
+		this.groupID = groupID;
+	}
+
+	public GroupUser getGroupUser() {
+		return groupUser;
+	}
+
+	public void setGroupUser(GroupUser groupUser) {
+		this.groupUser = groupUser;
+	}
+	
+	public void setParentGroup(GroupUser groupUser){
+		this.groupUser = groupUser;
+	}
+	
+	/*********************************************************
+	 * Create a new Group ...................grouUser=parent
+	 *********************************************************/
+	public void setGroup(String userId, GroupUser groupUser){
+		
+		userList = new ArrayList<User>();
+		setGroupID(userId);
+		setParentGroup(groupUser);	
+			
 	}
 	
 	public String toString(){
-		return "User: " + userID;
+		return groupID;
+	}
+	
+	public void addUserToGroup(User user){
+		userList.add(user);
 	}
 
-	@Override
-	public void print() {
-		System.out.println(users);
-	
-//
-//		
-//		Iterator<User> userIterator = users.iterator();
-//		while(userIterator.hasNext()){
-//			User user = userIterator.next();
-//			user.print();
-//		}
-		
+	public List<User> getUserList() {
+		return userList;
 	}
+
+	public void setUserList(List<User> userList) {
+		this.userList = userList;
+	}
+	
+	public boolean IsUserExists(User user){
+		for(User us : userList){
+			if(us.equals(user)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
 }
