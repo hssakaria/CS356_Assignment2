@@ -3,21 +3,15 @@
  * GroupUser is a composite of multiple Users
  * GroupUser act as a Parent Node. and Users are the Children
  ****************************************************************/
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.ImageIcon;
 
 public class GroupUser implements UserComponent {
 	
 	private String groupID;
-	private ImageIcon image;
 	
-	public void setImage(ImageIcon image){
-		this.image = image;
-	}
-	private GroupUser groupUser; //parentGroup
+
+	private GroupUser groupUser;
 	
 	private List<User> userList;
 
@@ -42,7 +36,7 @@ public class GroupUser implements UserComponent {
 	}
 	
 	/*********************************************************
-	 * Create a new Group ...................grouUser=parent
+	 * Create a new Group
 	 *********************************************************/
 	public void setGroup(String userId, GroupUser groupUser){
 		

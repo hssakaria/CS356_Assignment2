@@ -53,8 +53,9 @@ public class UserTwitterUI {
 	private JList<String> followingList; 
 
 	private JList<String> followersList; 
-	private DefaultListModel<String> defaultFollowingListModel;
 	
+	private DefaultListModel<String> defaultFollowingListModel;
+	private DefaultListModel<String> defaultNewsFeedListModel;
 	private List<String> messagesList;
 	
 	
@@ -93,7 +94,7 @@ public class UserTwitterUI {
 	public UserTwitterUI(User user){
 
 		initialize(user);
-//		this.user = user;
+		UserTwitterUI.user = user;
 		this.setCurrentUser(user);
 //		this.userId = userId;
 	}
@@ -110,13 +111,9 @@ public class UserTwitterUI {
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		Color lableColor = Color.red;
 		
-		
-
-		
 		frame = new JFrame(user + " is logged in.");
 		frame.setSize(400, 350);
 		
-			//mainPanel = new JPanel(new GridLayout(4,1));
 			mainPanel = new JPanel();
 				BoxLayout boxLayout= new BoxLayout(mainPanel, BoxLayout.Y_AXIS); 
 				
@@ -124,18 +121,15 @@ public class UserTwitterUI {
 				mainPanel.setBackground(Color.DARK_GRAY);
 				mainPanel.setBorder(new LineBorder(new Color(0, 0, 0), 10));
 				
-				
 				panel0 = new JPanel();
-				panel0.setBorder(new LineBorder(Color.GRAY, 2));
+					panel0.setBorder(new LineBorder(Color.GRAY, 2));
 					panel0.setOpaque(true);
 					panel0.setBackground(Color.darkGray);
 					
 					userLabel = new JLabel();
-					userLabel.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 20));
+						userLabel.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 20));
 						userLabel.setForeground(lableColor );
-						
 						userLabel.setText(user +"");
-						
 						
 					panel0.add(userLabel);
 					panel0.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -150,7 +144,7 @@ public class UserTwitterUI {
 					panel1.setOpaque(true);
 					panel1.setBackground(Color.darkGray);
 					
-						userIDLabel = new JLabel();
+					userIDLabel = new JLabel();
 						userIDLabel.setText("UserID:" );
 						userIDLabel.setForeground(Color.cyan);
 						userIDTextField = new JTextField(15);
@@ -180,10 +174,12 @@ public class UserTwitterUI {
 							
 								if(!id.equals("")){
 									
-									User currentFolloingUser = admin.returnUserOfthisUserID(id);
-									user.setUserID(id);
-									user.addFollowing(currentFolloingUser);
+//									User currentFolloingUser = admin.returnUserOfthisUserID(id);
 									
+									user.setUserID(id);
+//									user.addFollowing(currentFolloingUser);
+									user.addFollowing(user);
+
 									System.out.println("-->  " + user.getUserID());
 									userIDTextField.setText("");
 
@@ -333,10 +329,23 @@ public class UserTwitterUI {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 
-								if(!tweetMsgTA.getText().equals("")){
+								String msgTweet = tweetMsgTA.getText();
+								
+								if(!msgTweet.equals("")){
+									
+									user.addMessage(msgTweet);
+									tweetMsgTA.setText("");
+									tweetMsgTA.setFocusable(true);
 									
 									
 									
+									//send this message to all followers from the
+									// followingsList.
+								
+									
+									// update the newsFeed ListView
+
+									// User ": " + message
 									
 								}
 								else{
@@ -384,17 +393,13 @@ public class UserTwitterUI {
 					panel5.setPreferredSize(new Dimension(400,200));
 					panel5.setBorder(border);
 			
-				  	DefaultListModel<String> newsFeedModel = new DefaultListModel<String>();
+					DefaultListModel<String> newsFeedModel = new DefaultListModel<String>();
 				  	 JList<String> newsFeedList = new JList<String>(newsFeedModel);
 				  	 newsFeedList.setForeground(Color.CYAN);
 				  	 newsFeedList.setBackground(Color.DARK_GRAY);
 				  	 newsFeedList.setBorder(new LineBorder(Color.DARK_GRAY, 4));
 				  	 JScrollPane newsFeedSP = new JScrollPane( newsFeedList);
-//						
-//				  	for(int i=0; i<12; i++){
-//				  		newsFeedModel.addElement("News " + i);
-//				  	}
-//				
+				
 				panel5.add(newsFeedSP, BorderLayout.CENTER);
 				panel5.setAlignmentY(Component.TOP_ALIGNMENT);
 			mainPanel.add(panel5);
@@ -409,8 +414,9 @@ public class UserTwitterUI {
 	
 	private  void addFollowingsToJList() {
 
-		usersFollowingList = user.getFollowingsList(); // get the list<User> from User
-	  	
+		usersFollowingList = User.getFollowingsList(); // get the list<User> from User
+//		usersFollowingList = user.getFollowingsList(); // get the list<User> from User
+
 		System.out.println("addFolloingsToJlist function2  " + usersFollowingList);
 		
 //		defaultFollowingListModel.clear();

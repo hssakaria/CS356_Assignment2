@@ -21,7 +21,7 @@ public class User implements UserComponent{
 	private List<User> followersList;
 	
 	private static  List<User> followingsList;
-//	private List<String> message;
+	private List<String> messagesList;
 //	private List<String> newsFeed;
 	
 	public String getUserID() {
@@ -43,7 +43,7 @@ public class User implements UserComponent{
 	public void setFollowers(List<User> followersList) {
 		this.followersList = followersList;
 	}
-	public List<User> getFollowingsList() {
+	public static List<User> getFollowingsList() {
 		return followingsList;
 	}
 	public void setFollowings(List<User> followingsList) {
@@ -63,12 +63,15 @@ public class User implements UserComponent{
 		this.setUserID(userID);
 		
 //		this.followersList = new ArrayList<User>();
-		this.followingsList = new ArrayList<User>();
+		User.followingsList = new ArrayList<User>();
 //		this.newsFeed = new ArrayList<String>();
-//		this.message = new ArrayList<String>();
+		this.messagesList = new ArrayList<String>();
 
 		
 		
+	}
+	public void addMessage(String message){
+		messagesList.add(message);
 	}
 	public void addFollowing(User followingUser){
 		
@@ -82,7 +85,6 @@ public class User implements UserComponent{
 	
 	public void addFollowers(User userFollowers){
 		
-		//check
 		if(!IsUserExists(followersList, userFollowers)){
 		
 			followersList.add(userFollowers);
@@ -106,5 +108,6 @@ public class User implements UserComponent{
 	public String toString(){
 		return UserID;
 	}
+	
 }
 

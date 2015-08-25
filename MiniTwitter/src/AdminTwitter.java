@@ -28,6 +28,7 @@ public class AdminTwitter  {
 	private JPanel topPanel1;
 	private JPanel topPanel2;
 	private JPanel midPanel;
+	private JPanel bottomPanel;
 	private JPanel bottomPanel1;
 	private JPanel bottomPanel2;
 
@@ -120,10 +121,8 @@ public class AdminTwitter  {
 			rightPanel.setPreferredSize(new Dimension(200,450));
 			rightPanel.setOpaque(true);
 			
-	//			root = new DefaultMutableTreeNode("Root");
 				rootGroup = new GroupUser();
 				rootGroup.setGroup("CS356", null);
-				//rootGroup.toString();
 				root = new DefaultMutableTreeNode(rootGroup);
 				
 				treeModel = new DefaultTreeModel( root );
@@ -184,8 +183,10 @@ public class AdminTwitter  {
 			 * 			leftPanel added to mainPanel.***
 			 *********************************************************************************************/
 			//leftPanel = new JPanel(new GridLayout(3,1));
-			 leftPanel = new JPanel(new FlowLayout());
-			 	
+				
+			 leftPanel = new JPanel();
+			 BoxLayout boxLayout= new BoxLayout( leftPanel, BoxLayout.Y_AXIS); 
+			 	leftPanel.setLayout(boxLayout);
 				leftPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,10));
 				leftPanel.setOpaque(true);
 				leftPanel.setBackground(Color.darkGray);
@@ -194,8 +195,7 @@ public class AdminTwitter  {
 				topPanel1 = new JPanel(new FlowLayout());
 					topPanel1.setOpaque(true);
 					topPanel1.setBackground(Color.darkGray);
-					//userIDLabel = new JLabel("UserID:");
-					//topPanel.add(userIDLabel);
+
 					userIDLabel = new JLabel();
 						userIDLabel.setText("UserID: " );
 						userIDLabel.setForeground(Color.cyan);
@@ -205,7 +205,6 @@ public class AdminTwitter  {
 						 *******************************************************************************/
 						userIDTextField = new JTextField(15);
 							
-//							userIDTextField.setBackground(UIManager.getColor("Slider.background"));
 							userIDTextField.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
 							userIDTextField.setForeground(Color.darkGray);
 							userIDTextField.setBorder(BorderFactory.createCompoundBorder(border, 
@@ -265,8 +264,9 @@ public class AdminTwitter  {
 							topPanel1.add(userIDLabel);		
 							topPanel1.add(userIDTextField);	
 							topPanel1.add(userAddBtn);
-						
-						leftPanel.add(topPanel1, BorderLayout.NORTH);
+							topPanel1.setAlignmentY(Component.TOP_ALIGNMENT);
+
+						leftPanel.add(topPanel1);
 							 	
 						topPanel2 = new JPanel(new FlowLayout());
 							topPanel2.setOpaque(true);
@@ -309,7 +309,6 @@ public class AdminTwitter  {
 									if(!id.equals("") && node != null){
 										
 										addNewGroupUser(id);
-										//group.setImage(image); // set image for a Group
 										groupIDTextField.setText("");
 
 									}
@@ -323,24 +322,26 @@ public class AdminTwitter  {
 					topPanel2.add(groupIDLabel);		
 					topPanel2.add(groupIDTextField);	
 					topPanel2.add(groupAddBtn);
-					leftPanel.add(topPanel2, BorderLayout.NORTH);
+					topPanel2.setAlignmentY(Component.TOP_ALIGNMENT);
+
+					leftPanel.add(topPanel2);
 				 
-				midPanel =  new JPanel(new BorderLayout());
+				midPanel =  new JPanel();
 				
 					midPanel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 					midPanel.setBackground(Color.DARK_GRAY);
 					midPanel.setOpaque(true);
-//					midPanel.setPreferredSize(new Dimension(350,100));
+					
 					/*****************************************************
 					 * userViewBtn - Display UserUI
 					 ****************************************************/		
 					userViewBtn = new Button();
-						userViewBtn.setBackground(Color.CYAN);
+						userViewBtn.setBackground(Color.BLACK);
 						userViewBtn.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 18));
-						userViewBtn.setForeground(Color.BLACK);
+						userViewBtn.setForeground(Color.BLUE);
 						userViewBtn.setLabel("Open User View");
 
-						userViewBtn.setPreferredSize(new Dimension(300,60));
+						userViewBtn.setPreferredSize(new Dimension(250,60));
 						/**********************************************************
 						 *when UserViewBtn gets trigger, it will instantiate UserUI
 						 *and display userTwitterUI using Singleton Pattern
@@ -375,7 +376,7 @@ public class AdminTwitter  {
 //											UserTwitterUI.getUserTwitterInstance().UserTwitter(userID); 
 
 											
-											user.getFollowingsList().clear();
+											User.getFollowingsList().clear();
 //											System.out.println("USER:2  " + currentUserNode);//
 
 											// adding current user to followingUserlist in User 
@@ -396,43 +397,125 @@ public class AdminTwitter  {
 						});
 						
 					midPanel.add(userViewBtn, BorderLayout.CENTER);
+					midPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+
 				leftPanel.add(midPanel);
 
-				bottomPanel1 = new JPanel(new FlowLayout());
-				bottomPanel1.setBackground(Color.DARK_GRAY);
-					/*****************************************************
-					 * totalUserBtn
-					 ****************************************************/	
-					totalUserBtn = new Button();
-						totalUserBtn.setPreferredSize(new Dimension(xBtn, yBtn));
-						totalUserBtn.setForeground(SystemColor.controlHighlight);
-						totalUserBtn.setLabel("Show User Total");
-					totalGroupBtn = new Button();
-						totalGroupBtn.setPreferredSize(new Dimension(xBtn, yBtn));
-						totalGroupBtn.setForeground(SystemColor.controlHighlight);
-						totalGroupBtn.setLabel("Show Group Total");
-					
 				
-					bottomPanel1.add(totalUserBtn);
-			    	bottomPanel1.add(totalGroupBtn);
-			    leftPanel.add(bottomPanel1, BorderLayout.NORTH);
-			    
-			    	bottomPanel2 = new JPanel(new FlowLayout());
-			    	bottomPanel2.setBackground(Color.DARK_GRAY);
-			    	
-					totalMsgBtn = new Button();
-						totalMsgBtn.setPreferredSize(new Dimension(xBtn, yBtn));
-						totalMsgBtn.setForeground(UIManager.getColor("RadioButton.select"));
-						totalMsgBtn.setLabel("Show Total Messages");
-					positiveWordBtn = new Button();
-						positiveWordBtn.setPreferredSize(new Dimension(xBtn, yBtn));
-						positiveWordBtn.setForeground(UIManager.getColor("RadioButtonMenuItem.selectionBackground"));
-						positiveWordBtn.setLabel("Show Positive%");
+					bottomPanel1 = new JPanel(new FlowLayout());
+					bottomPanel1.setBorder(new LineBorder(Color.CYAN, 2));
+					bottomPanel1.setBackground(Color.DARK_GRAY);
+						/*****************************************************
+						 * totalUserBtn
+						 ****************************************************/	
+						totalUserBtn = new Button();
+							totalUserBtn.setPreferredSize(new Dimension(xBtn, yBtn));
+							totalUserBtn.setForeground(SystemColor.controlHighlight);
+							totalUserBtn.setLabel("Show User Total");
+							
+							/****************************
+							 * Tota User Button Action Listener
+							 ***************************/
+							totalUserBtn.addActionListener(new ActionListener(){
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+
+									// count if object is instance of user.
+									
+								}
+								
+							});
+							
+							
+						totalGroupBtn = new Button();
+							totalGroupBtn.setPreferredSize(new Dimension(xBtn, yBtn));
+							totalGroupBtn.setForeground(SystemColor.controlHighlight);
+							totalGroupBtn.setLabel("Show Group Total");
+							
+							/****************************
+							 * Action Listener
+							 ***************************/
+							
+							totalGroupBtn.addActionListener(new ActionListener(){
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+
+									// display total groups are created.
+									// go through entire treeView and do root.breathsearch
+									// of object instanceof GroupUse, then count++;
+									
+								}
+								
+							});
 					
-			    	bottomPanel2.add(totalMsgBtn);
-			    	bottomPanel2.add(positiveWordBtn);
-			   leftPanel.add(bottomPanel2, BorderLayout.NORTH);
-		    	
+						bottomPanel1.add(totalUserBtn);
+				    	bottomPanel1.add(totalGroupBtn);
+						bottomPanel1.setAlignmentY(Component.TOP_ALIGNMENT);
+
+				    leftPanel.add(bottomPanel1);
+				    
+				    	bottomPanel2 = new JPanel(new FlowLayout());
+				    	bottomPanel2.setBorder(new LineBorder(Color.CYAN, 2));
+				    	bottomPanel2.setBackground(Color.DARK_GRAY);
+				    	
+						totalMsgBtn = new Button();
+							totalMsgBtn.setPreferredSize(new Dimension(xBtn, yBtn));
+							totalMsgBtn.setForeground(UIManager.getColor("RadioButton.select"));
+							totalMsgBtn.setLabel("Show Total Messages");
+						
+							/****************************
+							 * Action Listener
+							 ***************************/
+							
+							totalMsgBtn.addActionListener(new ActionListener(){
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									
+									
+									// display total messages posted.
+								}
+								
+							});
+							
+							
+						positiveWordBtn = new Button();
+							positiveWordBtn.setPreferredSize(new Dimension(xBtn, yBtn));
+							positiveWordBtn.setForeground(Color.GREEN);
+							positiveWordBtn.setLabel("Show Positive%");
+							
+							/****************************
+							 * Action Listener
+							 ***************************/
+							positiveWordBtn.addActionListener(new ActionListener(){
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									
+									
+									
+									// get the word from the list of positive words and
+									// find it in the tweet message.
+									// Positive words: good, wonderful, great, nice, excellent, etcs.
+									
+									
+								}
+								
+							});
+							
+							
+							
+							
+				    	bottomPanel2.add(totalMsgBtn);
+				    	bottomPanel2.add(positiveWordBtn);
+						bottomPanel2.setAlignmentY(Component.TOP_ALIGNMENT);
+
+				   leftPanel.add(bottomPanel2);
+
+			   leftPanel.add(bottomPanel2);
+
 			 mainPanel.add(leftPanel);
 		
 		frame.getContentPane().add(mainPanel);
