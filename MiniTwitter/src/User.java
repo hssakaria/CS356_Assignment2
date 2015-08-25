@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-
-
 /*
  * Leaf Node
  */
@@ -20,8 +18,9 @@ public class User implements UserComponent{
 	private String groupID;
 	
 	
-//	private List<User> followers;
-//	private List<User> followings;
+	private List<User> followersList;
+	
+	private static  List<User> followingsList;
 //	private List<String> message;
 //	private List<String> newsFeed;
 	
@@ -37,6 +36,19 @@ public class User implements UserComponent{
 	public void setGroupID(String groupID) {
 		this.groupID = groupID;
 	}
+	
+	public List<User> getFollowersList() {
+		return followersList;
+	}
+	public void setFollowers(List<User> followersList) {
+		this.followersList = followersList;
+	}
+	public List<User> getFollowingsList() {
+		return followingsList;
+	}
+	public void setFollowings(List<User> followingsList) {
+		User.followingsList = followingsList;
+	}
 
 	/***********************************************************
 	 * Add user
@@ -50,13 +62,46 @@ public class User implements UserComponent{
 		this.setGroupID(groupID);
 		this.setUserID(userID);
 		
-//		this.followers = new ArrayList<User>();
-//		this.followings = new ArrayList<User>();
+//		this.followersList = new ArrayList<User>();
+		this.followingsList = new ArrayList<User>();
 //		this.newsFeed = new ArrayList<String>();
 //		this.message = new ArrayList<String>();
-//		
+
 		
 		
+	}
+	public void addFollowing(User followingUser){
+		
+		if(!IsUserExists(followingsList,followingUser)){
+			followingsList.add(followingUser);
+		}
+		
+		
+		
+}
+	
+	public void addFollowers(User userFollowers){
+		
+		//check
+		if(!IsUserExists(followersList, userFollowers)){
+		
+			followersList.add(userFollowers);
+		}
+		
+	}
+	
+/******************************************************************
+ * Check if User exists either in followers list or following list
+ * @param followers
+ * @param user
+ * @return
+ ******************************************************************/
+	private boolean IsUserExists(List<User> userFollower, User user) {
+		for(User u : userFollower){
+			if(u.equals(userFollower))
+				return true;
+		}
+		return false;
 	}
 	public String toString(){
 		return UserID;
