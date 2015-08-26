@@ -82,8 +82,9 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 		adminVisitor.setTotalMessages(message);
 		
 		System.out.println("message:  " + message);
-		System.out.println("total message:  " +  adminVisitor.getTotalMessages());
-		
+;
+		System.out.println("total message:  " +  getTotalMessages());
+		System.out.println("total %:  " +   getTotalPositivePercent());
 	}
 
 	public void addFollowing(User followingUser){
@@ -98,7 +99,6 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 
 	public void addFollowers(User userFollowers){
 
-		System.out.println("addFollowers " + userFollowers);
 		if(!IsUserExists(followersList, userFollowers)){
 
 			followersList.add(userFollowers);
@@ -159,6 +159,10 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 	
 	public int getTotalMessages(){
 		return adminVisitor.getTotalMessages();
+	}
+	
+	public double getTotalPositiveMessage(){
+		return adminVisitor.getTotalPositivePercent();
 	}
 	
 	public List<String> getNewsFeed() {

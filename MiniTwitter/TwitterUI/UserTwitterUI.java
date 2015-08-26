@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class UserTwitterUI implements Observer{
 
 	private  User currentuser;
 	private AdminTwitter admin;
-
+	private UserController userController;
 
 
 	//	private User currentUser;
@@ -59,6 +60,7 @@ public class UserTwitterUI implements Observer{
 	private DefaultListModel<String> defaultFollowingListModel;
 	private DefaultListModel<String> defaultNewsFeedListModel;
 	private List<String> messagesList;
+	private ArrayList<User> listOfAllUsers;
 
 
 
@@ -71,7 +73,7 @@ public class UserTwitterUI implements Observer{
 			public void run() {
 				try {
 
-					UserTwitterUI window = new UserTwitterUI(currentuser);
+					UserTwitterUI window = new UserTwitterUI(currentuser, listOfAllUsers);
 					window.frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -86,10 +88,11 @@ public class UserTwitterUI implements Observer{
 	 * Create the application.
 	 * @param currentUser 
 	 ****************************************************/
-	public UserTwitterUI(User currentuser){
+	public UserTwitterUI(User currentuser, ArrayList<User> listOfAllUsers){
 
 		this.currentuser = currentuser;
 
+		this.listOfAllUsers = listOfAllUsers;
 		this.setCurrentuser(currentuser);
 		initialize(currentuser);
 	}
@@ -99,6 +102,8 @@ public class UserTwitterUI implements Observer{
 	 ****************************************************/
 	@SuppressWarnings("unchecked")
 	private void initialize(User currentuser) {
+		
+		userController = new UserController();
 
 
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -167,16 +172,27 @@ public class UserTwitterUI implements Observer{
 
 				if(!id.equals("")){
 
-					System.out.println("listSize:   "+ currentuser.getFollowingsList().size());
+					System.out.println("UserTW  "+ listOfAllUsers);
+					System.out.println("listSize:   "+ currentuser.getFollowingsList());
 
-					User currentFolloingUser = AdminTwitter.getUserTwitterInstance().returnUserOfthisUserID(id);
-					currentuser.addFollowing(currentFolloingUser );
+					User currentFolloingUser =	userController.getThisObject(id, listOfAllUsers);
 
 
-					System.out.println("1-->  " + currentuser);
-					userIDTextField.setText("");
+					System.out.println(" found-->  " + currentFolloingUser);
 
-					addFollowingsToJList();
+					if(currentFolloingUser != null){
+						
+						currentuser.addFollowing(currentFolloingUser );
+
+						userIDTextField.setText("");
+
+						addFollowingsToJList();
+					}
+					else{
+						JOptionPane.showMessageDialog(frame, "User obejct not found",	
+								"Warning", JOptionPane.WARNING_MESSAGE);
+					
+					}
 
 				}
 				else{
@@ -184,8 +200,6 @@ public class UserTwitterUI implements Observer{
 					JOptionPane.showMessageDialog(frame, "Please enter UseID.",	
 							"Warning", JOptionPane.WARNING_MESSAGE);
 				}
-
-
 			}
 
 		});
@@ -230,8 +244,6 @@ public class UserTwitterUI implements Observer{
 
 		followingList = null;
 		defaultFollowingListModel = new DefaultListModel<String>();
-
-		currentuser.addFollowing(currentuser);
 
 		addFollowingsToJList();
 
@@ -305,23 +317,15 @@ public class UserTwitterUI implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				String msgTweet = tweetMsgTA.getText();
+				String userMessage = tweetMsgTA.getText();
 
-				if(!msgTweet.equals("")){
+				if(!userMessage.equals("")){
 
-					currentuser.addMessage(msgTweet);
+					currentuser.addMessage(userMessage);
+					
 					tweetMsgTA.setText("");
 					tweetMsgTA.setFocusable(true);
-
-
-
-					//send this message to all followers from the
-					// followingsList.
-
-
-					// update the newsFeed ListView
-
-					// User ": " + message
+					
 
 				}
 				else{
@@ -379,15 +383,12 @@ public class UserTwitterUI implements Observer{
 		frame.pack();
 		frame.setLocationRelativeTo(null); /* location center */
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		//		frame.setVisible(true);
 
 	}
-
 
 	public User getCurrentuser() {
 		return currentuser;
 	}
-
 	public void setCurrentuser(User currentuser) {
 		this.currentuser = currentuser;
 	}
@@ -400,9 +401,7 @@ public class UserTwitterUI implements Observer{
 		defaultFollowingListModel.clear();
 
 		for(User u : usersFollowingList){
-
-			System.out.println("u : " + u);
-
+			
 			defaultFollowingListModel.addElement(u.getUserID());
 
 			System.out.println("addFolloingsToJlist 3  " + u.getUserID());
@@ -415,6 +414,8 @@ public class UserTwitterUI implements Observer{
 
 	@Override
 	public void update() {
+		
+		
 		// read message from the TwitteTextFeild or from 
 		// the List<String> where message is stored.
 
