@@ -24,7 +24,7 @@ public class UserTwitterUI implements Observer{
 
 
 
-//	private User currentUser;
+	//	private User currentUser;
 
 	private JFrame frame;
 	private JPanel mainPanel;
@@ -71,10 +71,9 @@ public class UserTwitterUI implements Observer{
 			public void run() {
 				try {
 
-
 					UserTwitterUI window = new UserTwitterUI(currentuser);
-
 					window.frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -163,22 +162,22 @@ public class UserTwitterUI implements Observer{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				admin = new AdminTwitter();
-//				user = new User();
+
 				String	id = userIDTextField.getText();
 
 				if(!id.equals("")){
 
-					User currentFolloingUser = AdminTwitter.getUserTwitterInstance().returnUserOfthisUserID(id);
+					System.out.println("listSize:   "+ currentuser.getFollowingsList().size());
 
-//					currentuser.addFollowing(currentuser);
+					User currentFolloingUser = AdminTwitter.getUserTwitterInstance().returnUserOfthisUserID(id);
 					currentuser.addFollowing(currentFolloingUser );
 
-					System.out.println("-->  " + currentFolloingUser);
+
+					System.out.println("1-->  " + currentuser);
 					userIDTextField.setText("");
 
-//					addFollowingsToJList();
-											
+					addFollowingsToJList();
+
 				}
 				else{
 
@@ -217,9 +216,10 @@ public class UserTwitterUI implements Observer{
 
 
 
-		/*****************************************************
-		 * panel 2 - contains  current followers ListView and added to mainPanel.
-		 ****************************************************/
+		/***************************************************************
+		 * panel 2 - contains  current followers ListView and added to
+		 * mainPanel.
+		 **************************************************************/
 
 		panel2 = new JPanel(new BorderLayout());
 
@@ -230,22 +230,11 @@ public class UserTwitterUI implements Observer{
 
 		followingList = null;
 		defaultFollowingListModel = new DefaultListModel<String>();
-//
-//		usersFollowingList =user.getFollowingsList(); // get the list<User> from User
-//
-//		System.out.println("addFolloingsToJlist 2  " + usersFollowingList);
-//
-//		//		defaultFollowingListModel.clear();
-//
-//		for(User u : usersFollowingList){
-//
-//			defaultFollowingListModel.addElement(u.getUserID());
-//
-//			System.out.println("addFolloingsToJlist 3  " + u.getUserID());
-//
-//		}
 
-		//?????? not able to get current user from the followings List ????
+		currentuser.addFollowing(currentuser);
+
+		addFollowingsToJList();
+
 
 		followingList = new JList<String>(defaultFollowingListModel);
 
@@ -259,8 +248,6 @@ public class UserTwitterUI implements Observer{
 		panel2.add(followersSP , BorderLayout.CENTER);
 		panel2.setAlignmentY(Component.TOP_ALIGNMENT);
 		mainPanel.add(panel2);
-
-
 
 
 		/*****************************************************
@@ -342,10 +329,7 @@ public class UserTwitterUI implements Observer{
 							JOptionPane.INFORMATION_MESSAGE);
 					tweetMsgTA.setFocusable(true);
 				}
-
-
 			}
-
 		});
 
 
@@ -372,9 +356,6 @@ public class UserTwitterUI implements Observer{
 		panel5a.add(tweetNewsFeedLabel, BorderLayout.WEST);
 		panel5a.setAlignmentY(Component.TOP_ALIGNMENT);
 		mainPanel.add(panel5a, BorderLayout.EAST);
-
-
-
 
 		panel5 = new JPanel(new BorderLayout());
 		panel5.setBackground(Color.darkGray);
@@ -412,22 +393,21 @@ public class UserTwitterUI implements Observer{
 	}
 
 	private  void addFollowingsToJList() {
-		//		user = new User();
+
 
 		usersFollowingList = currentuser.getFollowingsList(); // get the list<User> from User
-		//		usersFollowingList = user.getFollowingsList(); // get the list<User> from User
 
-		System.out.println("addFolloingsToJlist 2  " + usersFollowingList);
+		defaultFollowingListModel.clear();
 
-		//		defaultFollowingListModel.clear();
 		for(User u : usersFollowingList){
-System.out.println("u : " + u);
+
+			System.out.println("u : " + u);
+
 			defaultFollowingListModel.addElement(u.getUserID());
 
 			System.out.println("addFolloingsToJlist 3  " + u.getUserID());
 
 		}
-		//	  	return new JList<String>(defaultFollowingListModel);
 		followingList = new JList<String>(defaultFollowingListModel);
 
 	}
@@ -437,7 +417,7 @@ System.out.println("u : " + u);
 	public void update() {
 		// read message from the TwitteTextFeild or from 
 		// the List<String> where message is stored.
-		
+
 	}
 
 

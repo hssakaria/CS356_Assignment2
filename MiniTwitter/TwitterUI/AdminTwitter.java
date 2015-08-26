@@ -28,6 +28,7 @@ public class AdminTwitter  {
 	private AdminController adminContorller;
 	private TwitterVisitors twitterVisitors;
 	private AdminVisitor adminVisitor;
+
 	private JFrame frame;
 	private JPanel mainPanel;
 	private JPanel rightPanel;
@@ -112,7 +113,7 @@ public class AdminTwitter  {
 	 **************************************/
 	private void initialize() {
 
-//		adminContorller = new AdminController();
+		//		adminContorller = new AdminController();
 		adminVisitor = new AdminVisitor();
 
 		frame = new JFrame("Mini Twitter by Hetal Sakaria");
@@ -153,39 +154,38 @@ public class AdminTwitter  {
 		treeView.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		treeView.setBackground(Color.darkGray);
 
+		//
+		//		/************************************************************************************************
+		//		 * Listen to selected node in the tree
+		//		 ************************************************************************************************/
+		//		treeView.addTreeSelectionListener(new TreeSelectionListener(){
+		//
+		//			@Override
+		//			public void valueChanged(TreeSelectionEvent e) {
+		//				//			
+		//
+		//				node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent();
+		//				parentPath = treeView.getSelectionPath();
+		//				parentNode = (DefaultMutableTreeNode) (parentPath.getLastPathComponent());
+		//
+		//				//					if (node == null) {
+		//				//						return;
+		//				//					}
+		//
+		//				//					Object selectedNode = node.getUserObject();
+		//				//					//  ???????????? //
+		//				//					System.out.println("Selected User " + selectedNode);
+		//				//					
+		//				//					if (selectedNode instanceof User) {
+		//				//						currentNode = (User) selectedNode;
+		//				//					} 
+		//				//					else if (selectedNode instanceof GroupUser) {
+		//				//						currentNode = (GroupUser) selectedNode;
+		//				//					}
+		//			}
+		//		});
 
-		/************************************************************************************************
-		 * Listen to selected node in the tree
-		 ************************************************************************************************/
-		treeView.addTreeSelectionListener(new TreeSelectionListener(){
-
-			@Override
-			public void valueChanged(TreeSelectionEvent e) {
-				//			
-
-				node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent();
-				parentPath = treeView.getSelectionPath();
-				parentNode = (DefaultMutableTreeNode) (parentPath.getLastPathComponent());
-
-				//					if (node == null) {
-				//						return;
-				//					}
-
-				//					Object selectedNode = node.getUserObject();
-				//					//  ???????????? //
-				//					System.out.println("Selected User " + selectedNode);
-				//					
-				//					if (selectedNode instanceof User) {
-				//						currentNode = (User) selectedNode;
-				//					} 
-				//					else if (selectedNode instanceof GroupUser) {
-				//						currentNode = (GroupUser) selectedNode;
-				//					}
-			}
-		});
-		
 		JScrollPane treeScrollPane = new JScrollPane(treeView);
-		
 		treeScrollPane.setPreferredSize(new Dimension(200,450));
 		rightPanel.add(treeScrollPane, BorderLayout.WEST);
 		mainPanel.add(rightPanel, BorderLayout.WEST);
@@ -203,9 +203,9 @@ public class AdminTwitter  {
 		 *********************************************************************************************/
 
 		leftPanel = new JPanel();
-		
+
 		BoxLayout boxLayout= new BoxLayout( leftPanel, BoxLayout.Y_AXIS); 
-		
+
 		leftPanel.setLayout(boxLayout);
 		leftPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,10));
 		leftPanel.setOpaque(true);
@@ -239,11 +239,11 @@ public class AdminTwitter  {
 		userAddBtn.setLabel("Add User");
 		userAddBtn.setPreferredSize(new Dimension(120,45));
 
-		/*****************************************************************************
+		/*******************************************************************************
 		 * Add User Button ActionListener
 		 * If node is not selected or textfield is empty, It throws a warning message.
 		 * else a user gets added to chosen parent node.
-		 *****************************************************************************/
+		 ******************************************************************************/
 		userAddBtn.addActionListener(new ActionListener(){
 
 			@Override
@@ -253,7 +253,8 @@ public class AdminTwitter  {
 
 				// check if node is selected or not??
 
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent();
+				DefaultMutableTreeNode node = 
+						(DefaultMutableTreeNode) treeView.getLastSelectedPathComponent();
 
 				if(!id.equals("") && node != null){
 
@@ -263,12 +264,20 @@ public class AdminTwitter  {
 					 * and check if user exist from that node. Not from the root.
 					 *******************************************************************/
 
-					Object thisUser = node.getUserObject();
+					returnNodeToAddUser(node);
 
-					if( thisUser instanceof GroupUser){
 
-						root = node;
-					}
+					//					Object thisUser = node.getUserObject();
+					//
+					//					if( thisUser instanceof GroupUser){
+					//
+					//						root = node;
+					//						addNewUser(id, root);
+					//					}
+					//					else if(thisUser instanceof User){
+					//						addNewUser(id,root);
+					//						
+					//					}
 
 					addNewUser(id, root);
 					userIDTextField.setText("");
@@ -296,9 +305,9 @@ public class AdminTwitter  {
 		groupIDLabel.setText("GroupID:");
 		groupIDLabel.setForeground(Color.cyan);
 
-		/*********************************************************************************
+		/*************************************************************************
 		 *groupIDTextArea
-		 ********************************************************************************/
+		 *************************************************************************/
 
 		groupIDTextField = new JTextField(15);
 		groupIDTextField.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 13));
@@ -306,16 +315,16 @@ public class AdminTwitter  {
 		groupIDTextField.setBorder(BorderFactory.createCompoundBorder(border, 
 				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
-		/*****************************************************
+		/*************************************************************************
 		 * groupAddBtn
-		 ****************************************************/		
+		 *************************************************************************/		
 		groupAddBtn = new Button();
 		groupAddBtn.setLabel("Add Group");
 		groupAddBtn.setPreferredSize(new Dimension(120,45));
 
-		/************************************************
+		/*************************************************************************
 		 * ActionListener
-		 ***********************************************/
+		 *************************************************************************/
 		groupAddBtn.addActionListener(new ActionListener(){
 
 			@Override
@@ -324,7 +333,6 @@ public class AdminTwitter  {
 				String	id = groupIDTextField.getText();
 				DefaultMutableTreeNode node = 
 						(DefaultMutableTreeNode) treeView.getLastSelectedPathComponent();
-
 
 				if(!id.equals("") && node != null){
 
@@ -346,15 +354,19 @@ public class AdminTwitter  {
 
 		leftPanel.add(topPanel2);
 
+
+		/*************************************************************************
+		 * MidPanel that contains User View Buttun
+		 *************************************************************************/
 		midPanel =  new JPanel();
 
 		midPanel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		midPanel.setBackground(Color.DARK_GRAY);
 		midPanel.setOpaque(true);
 
-		/*****************************************************
-		 * userViewBtn - Display UserUI
-		 ****************************************************/		
+		/*************************************************************************
+		 *  * userViewBtn - Display UserUI
+		 *************************************************************************/
 		userViewBtn = new Button();
 		userViewBtn.setBackground(Color.BLACK);
 		userViewBtn.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 18));
@@ -362,11 +374,12 @@ public class AdminTwitter  {
 		userViewBtn.setLabel("Open User View");
 
 		userViewBtn.setPreferredSize(new Dimension(250,60));
-		/**********************************************************
+		
+		/************************************************************************
 		 *when UserViewBtn gets trigger, it will instantiate UserUI
 		 *and display userTwitterUI using Singleton Pattern
 		 *First make sure the node is a User not a GroupID
-		 **********************************************************/
+		 ***********************************************************************/
 
 
 		userViewBtn.addActionListener(new ActionListener(){
@@ -388,19 +401,15 @@ public class AdminTwitter  {
 
 						System.out.println("USER:  " + currentUserNode);// 
 
-						user.addFollowing(currentUserNode); // add user itself in following list
+//						user.addFollowing(currentUserNode); // add user object to following list
 
-						System.out.println( "----- " +user.getFollowingsList());
-
+						System.out.println( "followingList--> " +user.getFollowingsList());
 
 						userTwitterUI  = new UserTwitterUI(currentUserNode);
 
-
 						userTwitterUI.UserTwitter();
 
-
-						user.getFollowingsList().clear();
-
+//						user.getFollowingsList().clear();
 
 					}
 					else{
@@ -549,6 +558,28 @@ public class AdminTwitter  {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	/***************************************************
+	 * Return root. If selected node is a Group_User
+	 * the new root to add a user will the that Group_User
+	 * @param node
+	 * @return
+	 ***************************************************/
+
+	protected DefaultMutableTreeNode returnNodeToAddUser(DefaultMutableTreeNode node) {
+
+		Object thisUser = node.getUserObject();
+
+		if( thisUser instanceof GroupUser){
+
+			root = node;
+			System.out.println("return1  " + root);
+
+		}
+
+		return root;
+
+	}
+
 	protected void displayWarningMessage(String warningMsg) {
 
 		JOptionPane.showMessageDialog(frame, warningMsg,	
@@ -581,7 +612,7 @@ public class AdminTwitter  {
 
 			addObject(group.getGroupID(), group);
 
-		// Using Visitor pattern
+			// Using Visitor pattern
 			group.accept(adminVisitor);
 
 
@@ -707,65 +738,65 @@ public class AdminTwitter  {
 	 * @param userID
 	 * @return User
 	 *********************************************************/
-	public User returnUserOfthisUserID(String userID) {
+//	public User returnUserOfthisUserID(String userID) {
+//
+//		DefaultTreeModel model = (DefaultTreeModel) treeView.getModel();
+//		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+//		DefaultMutableTreeNode childNode;
+//		User userNode = null;
+//		int childCount = root.getChildCount();
+//
+//		for(int i=0; i<childCount; i++){
+//
+//			childNode = (DefaultMutableTreeNode) root.getChildAt(i);
+//			Object thisNode = childNode.getUserObject();
+//			System.out.println("Test Admin:  " + thisNode);
+//			if(thisNode instanceof User){
+//				if(userID.equals(((User) thisNode).getUserID())){
+//					userNode= (User) thisNode;
+//					System.out.println("Test Admin2:  " + userNode);
+//
+//				}
+//
+//			}
+//		}
+//		return userNode;
+//	}
 
-		DefaultTreeModel model = (DefaultTreeModel) treeView.getModel();
-		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-		DefaultMutableTreeNode childNode;
-		User userNode = null;
-		int childCount = root.getChildCount();
-
-		for(int i=0; i<childCount; i++){
-
-			childNode = (DefaultMutableTreeNode) root.getChildAt(i);
-			Object thisNode = childNode.getUserObject();
-			System.out.println("Test Admin:  " + thisNode);
-			if(thisNode instanceof User){
-				if(userID.equals(((User) thisNode).getUserID())){
-					userNode= (User) thisNode;
-					System.out.println("Test Admin2:  " + userNode);
-
+		public User returnUserOfthisUserID(String userID) {
+	
+			User userOfthatUserID = null;
+	
+			Enumeration en = root.breadthFirstEnumeration();
+	
+			System.out.println("Admin    " + en.nextElement());
+	
+			while (en.hasMoreElements()) {
+	
+				DefaultMutableTreeNode node = 
+						(DefaultMutableTreeNode) en.nextElement();
+	
+				Object thisNode = node.getUserObject();
+	
+				System.out.println("Test Admin:  " + thisNode);
+	
+				if (thisNode instanceof User) {
+	
+					userOfthatUserID = (User) thisNode;
+	
+					System.out.println("Admin 2   " + userOfthatUserID);
+	
+					if (userID.equals(userOfthatUserID.getUserID())) {
+						return userOfthatUserID;
+					}
 				}
-
+				System.out.println("Admin 1-->   " + en.nextElement());
+	
 			}
+			System.out.println("Admin3   " + userOfthatUserID);
+	
+			return userOfthatUserID;
 		}
-		return userNode;
-	}
-
-	//	public User returnUserOfthisUserID(String userID) {
-	//
-	//		User userOfthatUserID = null;
-	//
-	//		Enumeration en = root.breadthFirstEnumeration();
-	//
-	//		System.out.println("Admin    " + en.nextElement());
-	//
-	//		while (en.hasMoreElements()) {
-	//
-	//			DefaultMutableTreeNode node = 
-	//					(DefaultMutableTreeNode) en.nextElement();
-	//
-	//			Object thisNode = node.getUserObject();
-	//
-	//			System.out.println("Test Admin:  " + thisNode);
-	//
-	//			if (thisNode instanceof User) {
-	//
-	//				userOfthatUserID = (User) thisNode;
-	//
-	//				System.out.println("Admin 2   " + userOfthatUserID);
-	//
-	//				if (userID.equals(userOfthatUserID.getUserID())) {
-	//					return userOfthatUserID;
-	//				}
-	//			}
-	//			System.out.println("Admin 1-->   " + en.nextElement());
-	//
-	//		}
-	//		System.out.println("Admin3   " + userOfthatUserID);
-	//
-	//		return userOfthatUserID;
-	//	}
 
 
 	public boolean IsUserExists(String id, DefaultMutableTreeNode root){

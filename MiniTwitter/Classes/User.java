@@ -11,17 +11,17 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Leaf Node
  */
 
-public class User extends AdminVisitor implements Visitable, Observable,UserComponent{
+public class User extends AdminVisitor implements Visitable,Observable,UserComponent{
 
 	private User user;
 	private String UserID;
 	private String groupID;
 
-	private List<User> usersList;
+	private List<Observer> registeredUsers = new ArrayList<Observer>();
 	private List<User> followersList;
 	private  List<User> followingsList;
 	private List<String> messagesList;
-	//	private List<String> newsFeed;
+	private List<String> newsFeed;
 
 	public String getUserID() {
 		return UserID;
@@ -130,13 +130,29 @@ public class User extends AdminVisitor implements Visitable, Observable,UserComp
 	 **************************************************************/
 
 	@Override
-	public void addObserver(User user) {
-		followingsList.add(user);		
+	public void addObserver(Observer o) {
+		registeredUsers.add(o);		
 	}
+	
 	@Override
 	public void notifyObserver() {
-		// TODO Auto-generated method stub
+		// Iterate list of all following users(Observers)
+		// and call their update method.
 		
+		
+		// notify all the users
+//		for(Observer user : registeredUsers){
+//			registeredUsers.update();
+//			
+//		}
+		
+	}
+	public List<String> getNewsFeed() {
+		return newsFeed;
+	}
+	public void setNewsFeed(List<String> newsFeed) {
+		this.newsFeed = newsFeed;
+		notifyObserver();
 	}
 
 }
