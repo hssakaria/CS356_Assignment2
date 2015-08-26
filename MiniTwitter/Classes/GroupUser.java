@@ -6,13 +6,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupUser implements UserComponent {
-	
+public class GroupUser implements Visitable,UserComponent {
+
 	private String groupID;
-	
+
 
 	private GroupUser groupUser;
-	
+
 	private List<User> userList;
 
 	public String getGroupID() {
@@ -30,26 +30,26 @@ public class GroupUser implements UserComponent {
 	public void setGroupUser(GroupUser groupUser) {
 		this.groupUser = groupUser;
 	}
-	
+
 	public void setParentGroup(GroupUser groupUser){
 		this.groupUser = groupUser;
 	}
-	
+
 	/*********************************************************
 	 * Create a new Group
 	 *********************************************************/
 	public void setGroup(String userId, GroupUser groupUser){
-		
+
 		userList = new ArrayList<User>();
 		setGroupID(userId);
 		setParentGroup(groupUser);	
-			
+
 	}
-	
+
 	public String toString(){
 		return  "Group_"+ groupID;
 	}
-	
+
 	public void addUserToGroup(User user){
 		userList.add(user);
 	}
@@ -61,7 +61,7 @@ public class GroupUser implements UserComponent {
 	public void setUserList(List<User> userList) {
 		this.userList = userList;
 	}
-	
+
 	public boolean IsUserExists(User user){
 		for(User us : userList){
 			if(us.equals(user)){
@@ -70,6 +70,11 @@ public class GroupUser implements UserComponent {
 		}
 		return false;
 	}
-	
+
+	@Override
+	public void accept(TwitterVisitors twitterVisitors) {
+		twitterVisitors.groupVisitor(this);
+	}
+
 
 }

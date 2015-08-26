@@ -6,8 +6,7 @@ public class MiniTwitterDrive {
 	/**********************************************
 	 *Display Admin Window for the Twitter 	
 	 **********************************************/
-	AdminTwitter adminTwitter = new AdminTwitter();
-	adminTwitter.AdminWindow();
+	AdminTwitter.getUserTwitterInstance().AdminWindow();
 		
 	}
 
