@@ -22,6 +22,9 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 	private  List<User> followingsList;
 	private List<String> messagesList;
 	private List<String> newsFeed;
+	private TwitterVisitors twitterVisitors;
+	private AdminVisitor adminVisitor = new AdminVisitor();
+	private Observer o;
 
 	public String getUserID() {
 		return UserID;
@@ -54,6 +57,7 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 	 * @param user
 	 * @param userID
 	 * @param groupID
+	 * @param listOfUsers 
 	 ************************************************************/
 	public void addUser(User user, String userID, String groupID){
 
@@ -62,24 +66,33 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 		this.setUserID(userID);
 		//		this.followersList = new ArrayList<User>();
 		this.followingsList = new ArrayList<User>();
-		//		this.newsFeed = new ArrayList<String>();
+		this.newsFeed = new ArrayList<String>();
 		this.messagesList = new ArrayList<String>();
 
 
+	}
 
+	public User getUser(){
+		return user;
 	}
 
 	public void addMessage(String message){
 		messagesList.add(message);
+		
+		adminVisitor.setTotalMessages(message);
+		
+		System.out.println("message:  " + message);
+		System.out.println("total message:  " +  adminVisitor.getTotalMessages());
+		
 	}
 
 	public void addFollowing(User followingUser){
 
-		followingsList.add(followingUser);
-
-//		if(!IsUserExists(followingsList,followingUser)){
-//			followingsList.add(followingUser);
-//		}
+		if(!IsUserExists(followingsList,followingUser)){
+			followingsList.add(followingUser);
+		
+			followingUser.addObserver(o);
+		}
 
 	}
 
@@ -120,7 +133,8 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 
 	@Override
 	public void accept(TwitterVisitors twitterVisitors) {
-		twitterVisitors.userVisitor(this);
+		this.twitterVisitors = twitterVisitors;
+		twitterVisitors.userVisitor(user);
 		
 	}
 	
@@ -129,11 +143,6 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 	 * Add user to the Observer.
 	 **************************************************************/
 
-	@Override
-	public void addObserver(Observer o) {
-		registeredUsers.add(o);		
-	}
-	
 	@Override
 	public void notifyObserver() {
 		// Iterate list of all following users(Observers)
@@ -147,6 +156,11 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 //		}
 		
 	}
+	
+	public int getTotalMessages(){
+		return adminVisitor.getTotalMessages();
+	}
+	
 	public List<String> getNewsFeed() {
 		return newsFeed;
 	}
@@ -154,6 +168,13 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 		this.newsFeed = newsFeed;
 		notifyObserver();
 	}
+
+	@Override
+	public void addObserver(Observer o) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 }
 

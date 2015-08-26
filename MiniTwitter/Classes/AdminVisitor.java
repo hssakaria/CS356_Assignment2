@@ -2,10 +2,12 @@
 public class AdminVisitor implements TwitterVisitors {
 	
 	
-	private int totalUsers = 0;
-	private int totalGroupUsers =0;
-	private int totalMessages =0;
+	private int totalUsers;
+	private int totalGroupUsers;
 	
+	private int totalMessages;
+	private String[] positivewords = {"great","good","wonderful","joy", "Marvelous","Trust","Well"}; 
+	private double positiveMsg;
 	
 
 	@Override
@@ -19,6 +21,20 @@ public class AdminVisitor implements TwitterVisitors {
 		totalGroupUsers++;
 	}
 
+	public void setTotalMessages(String msg){
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		totalMessages++;
+		
+	}
 	public int getTotalUsers() {
 		return totalUsers;
 	}
@@ -30,6 +46,6 @@ public class AdminVisitor implements TwitterVisitors {
 	public int getTotalMessages() {
 		return totalMessages;
 	}
-	
+
 
 }
