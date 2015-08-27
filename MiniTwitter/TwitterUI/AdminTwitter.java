@@ -27,8 +27,6 @@ public class AdminTwitter  {
 
 	private static AdminTwitter instance = null;
 
-	private AdminController adminContorller;
-	private TwitterVisitors twitterVisitors;
 	private AdminVisitor adminVisitor;
 
 	private ArrayList<User> listOfUsers = new ArrayList<User>();
@@ -476,7 +474,7 @@ public class AdminTwitter  {
 			public void actionPerformed(ActionEvent e) {
 
 				JOptionPane.showMessageDialog(frame,
-						"Total Messages:  "+ formatter.format(user.getTotalPositivePercent())+"%",
+						"Total Positive%:  "+ formatter.format(user.getTotalPositivePercent())+"%",
 						"Twitter Messages", JOptionPane.PLAIN_MESSAGE);
 			}
 

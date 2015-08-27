@@ -18,7 +18,6 @@ public class User extends AdminVisitor implements Visitable,Observable, Observer
 	private String groupID;
 
 	private List<User> registeredUsers;
-	private List<User> followersList;
 	private  List<User> followingsList;
 	private List<String> messagesList;
 	private List<String> newsFeed;
@@ -101,9 +100,11 @@ public class User extends AdminVisitor implements Visitable,Observable, Observer
 
 		messagesList.add(message);
 		adminVisitor.setTotalMessages(message);
-		newsFeed.add("* "+ user.getUserID() + ":  " + message);
+		newsFeed.add("- "+ user.getUserID() + ":  " + message);
 		setNewsFeed(newsFeed);
 
+		System.out.println("Total Messages:  "+ getTotalMessages());
+		System.out.println("Total Positive%:  "+ getTotalPositivePercent());
 		System.out.println("newsfeed:   " + newsFeed);
 
 

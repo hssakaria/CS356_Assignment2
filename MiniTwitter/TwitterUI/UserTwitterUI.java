@@ -321,6 +321,7 @@ public class UserTwitterUI implements Observer{
 
 					tweetMsgTA.setText("");
 					tweetMsgTA.setFocusable(true);
+					
 
 
 				}
@@ -404,7 +405,6 @@ public class UserTwitterUI implements Observer{
 
 		}
 		newsFeedList = new JList<String>(defaultNewsFeedListModel);
-
 
 	}
 

@@ -8,8 +8,14 @@ public class AdminVisitor implements TwitterVisitors {
 	private int totalGroupUsers;
 
 	private int totalMessages=0;
-	private String[] positivewords = {"hello","great","good","wonderful","joy", "Marvelous","Trust","Well"}; 
-	private double totalPossitiveMessages;
+	//	private String[] positivewords = {"hello","great","good","wonderful","joy", "Marvelous","Trust","Well"}; 
+	private int totalPossitiveMessages;
+	
+	private double totalPositivePercent = 0.0;
+	public int getTotalPossitiveMessages() {
+		return totalPossitiveMessages;
+	}
+
 	@Override
 	public void userVisitor(User user) {
 		totalUsers++;
@@ -27,38 +33,37 @@ public class AdminVisitor implements TwitterVisitors {
 	 ***********************************************/
 	public void setTotalMessages(String msg){
 
-		
-	
-		String[] message = new String[] {msg.toLowerCase()};
+		String[] message =  {msg.toLowerCase()};
 		boolean IsmessageIsPositive = false;
-		for(String ms: message){
-			for(String words : positivewords){
+		for(int i =0; i<message.length; i++){
 
-				if(ms.equals(words)){
-					IsmessageIsPositive = true;
-				}
+			if(message[i].equals("good")
+					||message[i].equals("hello")
+					||message[i].equals("great")){
+
+				IsmessageIsPositive = true;
+
+			}
+			if(IsmessageIsPositive){
+				calculateTotalPositiveMsg();
 			}
 		}
 
-		if(IsmessageIsPositive){
-			calculateTotalPositiveMsg();
-		}
 		totalMessages++;
 
 	}
 	public void calculateTotalPositiveMsg() {
 
 		totalPossitiveMessages++;
-
 	}
-	
+
 	public double getTotalPositivePercent(){
-		
+
 		if(totalMessages != 0){
-			
+
 			return totalPossitiveMessages/totalMessages*100;
 		}
-		
+
 		return 0.0;
 	}
 
