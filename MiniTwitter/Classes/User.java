@@ -11,13 +11,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Leaf Node
  */
 
-public class User extends AdminVisitor implements Visitable,Observable,UserComponent{
+public class User extends AdminVisitor implements Visitable,Observable, Observer{
 
 	private User user;
 	private String UserID;
 	private String groupID;
 
-	private List<Observer> registeredUsers = new ArrayList<Observer>();
+	private List<User> registeredUsers;
 	private List<User> followersList;
 	private  List<User> followingsList;
 	private List<String> messagesList;
@@ -25,6 +25,7 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 	private TwitterVisitors twitterVisitors;
 	private AdminVisitor adminVisitor = new AdminVisitor();
 	private Observer o;
+	private List<Observer> followers;
 
 	public String getUserID() {
 		return UserID;
@@ -39,12 +40,6 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 		this.groupID = groupID;
 	}
 
-	public List<User> getFollowersList() {
-		return followersList;
-	}
-	public void setFollowers(List<User> followersList) {
-		this.followersList = followersList;
-	}
 	public List<User> getFollowingsList() {
 		return followingsList;
 	}
@@ -64,10 +59,11 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 		this.user = user;
 		this.setGroupID(groupID);
 		this.setUserID(userID);
-		//		this.followersList = new ArrayList<User>();
 		this.followingsList = new ArrayList<User>();
+		this.registeredUsers = new ArrayList<User>();
 		this.newsFeed = new ArrayList<String>();
 		this.messagesList = new ArrayList<String>();
+		this.addObserver(user);
 
 
 	}
@@ -75,33 +71,51 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 	public User getUser(){
 		return user;
 	}
+	/*********************************************
+	 * Observer Pattern
+	 * Whenever NewsFeed list gets updated, it will
+	 * notifiyObserver to inform all the Register
+	 * Observer about the change
+	 * @param newsFeed
+	 ********************************************/
 
+
+	public void setNewsFeed(List<String> newsFeed) {
+		this.newsFeed = newsFeed;
+
+		notifyObserver();
+
+		System.out.println("User Notified");
+	}
+
+
+	/********************************************
+	 * Visitor Pattern
+	 * Observer Pattern
+	 * 
+	 * When you message gets posted, Notify
+	 * all the registeredUser
+	 * @param message
+	 ********************************************/
 	public void addMessage(String message){
+
 		messagesList.add(message);
-		
 		adminVisitor.setTotalMessages(message);
-		
-		System.out.println("message:  " + message);
-;
-		System.out.println("total message:  " +  getTotalMessages());
-		System.out.println("total %:  " +   getTotalPositivePercent());
+		newsFeed.add("* "+ user.getUserID() + ":  " + message);
+		setNewsFeed(newsFeed);
+
+		System.out.println("newsfeed:   " + newsFeed);
+
+
 	}
 
 	public void addFollowing(User followingUser){
 
 		if(!IsUserExists(followingsList,followingUser)){
 			followingsList.add(followingUser);
-		
-			followingUser.addObserver(o);
-		}
+			followingUser.addObserver(followingUser); 
 
-	}
 
-	public void addFollowers(User userFollowers){
-
-		if(!IsUserExists(followersList, userFollowers)){
-
-			followersList.add(userFollowers);
 		}
 
 	}
@@ -120,12 +134,12 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 		return false;
 	}
 
-	
+
 	public String toString(){
 		return UserID;
 	}
-	
-	
+
+
 	/***************************************************************
 	 * For Visitor Pattern
 	 * Concrete implementation of our Visitable interface
@@ -135,9 +149,9 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 	public void accept(TwitterVisitors twitterVisitors) {
 		this.twitterVisitors = twitterVisitors;
 		twitterVisitors.userVisitor(user);
-		
+
 	}
-	
+
 	/***************************************************************
 	 * For Observer Pattern
 	 * Add user to the Observer.
@@ -147,38 +161,40 @@ public class User extends AdminVisitor implements Visitable,Observable,UserCompo
 	public void notifyObserver() {
 		// Iterate list of all following users(Observers)
 		// and call their update method.
-		
-		
-		// notify all the users
-//		for(Observer user : registeredUsers){
-//			registeredUsers.update();
-//			
-//		}
-		
+		for(User u : registeredUsers ){
+			u.update();
+		}
+
 	}
-	
+
 	public int getTotalMessages(){
 		return adminVisitor.getTotalMessages();
 	}
-	
+
 	public double getTotalPositiveMessage(){
 		return adminVisitor.getTotalPositivePercent();
 	}
-	
+
 	public List<String> getNewsFeed() {
 		return newsFeed;
 	}
-	public void setNewsFeed(List<String> newsFeed) {
-		this.newsFeed = newsFeed;
-		notifyObserver();
-	}
+
+
+	/**********************************************
+	 * Add user to the ObserverList.
+	 **********************************************/
 
 	@Override
-	public void addObserver(Observer o) {
+	public void addObserver(User user) {
+		registeredUsers.add(user);
+
+	}
+	@Override
+	public void update() {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 
 }
 

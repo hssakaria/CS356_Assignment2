@@ -6,7 +6,7 @@
  */
 public interface Observable {
 	
-	public void addObserver(Observer o);
+	public void addObserver(User user);
 	public void notifyObserver();
 	
 	

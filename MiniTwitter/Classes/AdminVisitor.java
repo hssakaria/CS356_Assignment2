@@ -7,9 +7,9 @@ public class AdminVisitor implements TwitterVisitors {
 	private int totalUsers;
 	private int totalGroupUsers;
 
-	private int totalMessages;
+	private int totalMessages=0;
 	private String[] positivewords = {"hello","great","good","wonderful","joy", "Marvelous","Trust","Well"}; 
-	private int totalPossitiveMessages;
+	private double totalPossitiveMessages;
 	@Override
 	public void userVisitor(User user) {
 		totalUsers++;
