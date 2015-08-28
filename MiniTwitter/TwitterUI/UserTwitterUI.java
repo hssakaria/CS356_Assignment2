@@ -175,12 +175,7 @@ public class UserTwitterUI  extends Observable{
 
 					if(currentFolloingUser != null){
 
-						currentuser.addFollowing(currentFolloingUser );
-//						currentuser.addObserver(userTwitterUI);
-						
-						
-//						System.out.println("Observer   " + currentFolloingUser.countObservers());
-						
+						currentuser.addFollowing(currentFolloingUser );					
 						userIDTextField.setText("");
 
 						addFollowingsToJList();
@@ -372,9 +367,6 @@ public class UserTwitterUI  extends Observable{
 
 		newsFeedList = null;
 		defaultNewsFeedListModel = new DefaultListModel<String>();
-
-		//		addNewFeedToList();
-
 		newsFeedList = new JList<String>(defaultNewsFeedListModel);
 
 		JScrollPane newsFeedSP = new JScrollPane( newsFeedList);
@@ -408,20 +400,6 @@ public class UserTwitterUI  extends Observable{
 
 	}
 
-	//	private void addNewFeedToList() {
-	//
-	//		userMessage =  currentuser.getNewsFeed(); 
-	//
-	//		System.out.println("newsFeed:  "+ userMessage);
-	//
-	//		defaultNewsFeedListModel.clear();
-	//
-	//		for(String message : userMessage){
-	//			defaultNewsFeedListModel.addElement(message);
-	//		}
-	//		newsFeedList = new JList<String>(defaultNewsFeedListModel);
-	//
-	//	}
 
 	public void updateFollowers(String newMessage) {
 
