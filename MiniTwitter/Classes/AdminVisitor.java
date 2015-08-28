@@ -1,5 +1,4 @@
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+
 
 public class AdminVisitor implements TwitterVisitors {
 
@@ -8,13 +7,8 @@ public class AdminVisitor implements TwitterVisitors {
 	private int totalGroupUsers;
 
 	private int totalMessages=0;
-	//	private String[] positivewords = {"hello","great","good","wonderful","joy", "Marvelous","Trust","Well"}; 
-	private int totalPossitiveMessages;
-	
-	private double totalPositivePercent = 0.0;
-	public int getTotalPossitiveMessages() {
-		return totalPossitiveMessages;
-	}
+	private int totalPossitiveMessages = 0;
+
 
 	@Override
 	public void userVisitor(User user) {
@@ -29,9 +23,21 @@ public class AdminVisitor implements TwitterVisitors {
 
 	/**********************************************
 	 * check if message contains positive words
+	 * and count total messages
 	 * @param msg
 	 ***********************************************/
 	public void setTotalMessages(String msg){
+
+		findPositiveMessages(msg);
+
+		totalMessages++;
+
+	}
+	/**********************************************
+	 * check if message contains positive words
+	 * @param msg
+	 ***********************************************/
+	private void findPositiveMessages(String msg) {
 
 		String[] message =  {msg.toLowerCase()};
 		boolean IsmessageIsPositive = false;
@@ -39,32 +45,32 @@ public class AdminVisitor implements TwitterVisitors {
 
 			if(message[i].equals("good")
 					||message[i].equals("hello")
-					||message[i].equals("great")){
+					||message[i].equals("great")
+					||message[i].equals("wonderful")){
 
 				IsmessageIsPositive = true;
 
 			}
-			if(IsmessageIsPositive){
+
+			if(IsmessageIsPositive == true){
 				calculateTotalPositiveMsg();
 			}
 		}
 
-		totalMessages++;
-
 	}
+
 	public void calculateTotalPositiveMsg() {
 
 		totalPossitiveMessages++;
 	}
 
-	public double getTotalPositivePercent(){
+	public double getTotalPositivePercent() {
+		
+		double totalMsg = (double) getTotalMessages();
+		double totalPostMsg = (double) getTotalPossitiveMessages();
 
-		if(totalMessages != 0){
+		return (totalPostMsg/totalMsg)*100;
 
-			return totalPossitiveMessages/totalMessages*100;
-		}
-
-		return 0.0;
 	}
 
 	public int getTotalUsers() {
@@ -79,6 +85,8 @@ public class AdminVisitor implements TwitterVisitors {
 		return totalGroupUsers;
 	}
 
-
+	public int getTotalPossitiveMessages() {
+		return totalPossitiveMessages;
+	}
 
 }

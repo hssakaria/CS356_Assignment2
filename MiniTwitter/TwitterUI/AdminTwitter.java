@@ -465,17 +465,18 @@ public class AdminTwitter  {
 		positiveWordBtn.setForeground(Color.MAGENTA);
 		positiveWordBtn.setLabel("Show Positive%");
 
-		/****************************
+		/****************************************************************
 		 * Action Listener
-		 ***************************/
+		 ***************************************************************/
 		positiveWordBtn.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				String message = "<html>Positive words are good, hello,great, and wonderful<br><br>"+ "Total Positive%:  "
+								+ formatter.format(user.getTotalPositivePercent())+"%"+"</html>";
+				
 				JOptionPane.showMessageDialog(frame,
-						"Total Positive%:  "+ formatter.format(user.getTotalPositivePercent())+"%",
-						"Twitter Messages", JOptionPane.PLAIN_MESSAGE);
+						message,"Twitter Statistics", JOptionPane.PLAIN_MESSAGE);
 			}
 
 		});
