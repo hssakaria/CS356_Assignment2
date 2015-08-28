@@ -236,7 +236,7 @@ public class AdminTwitter  {
 
 					returnNodeToAddUser(node);
 					addNewUser(id, root);
-						
+
 					userIDTextField.setText("");
 				}
 				else{
@@ -451,9 +451,8 @@ public class AdminTwitter  {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				JOptionPane.showMessageDialog(frame,
-						"Total Messages:  "+ user.getTotalMessages(),
-						"Twitter Messages",
+				JOptionPane.showMessageDialog(frame,"Total Messages:  " + 
+						user.getTotalMessages(),"Twitter Messages",
 						JOptionPane.PLAIN_MESSAGE);
 			}
 
@@ -473,8 +472,8 @@ public class AdminTwitter  {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String message = "<html>Positive words are good, hello,great, and wonderful<br><br>"+ "Total Positive%:  "
-								+ formatter.format(user.getTotalPositivePercent())+"%"+"</html>";
-				
+						+ formatter.format(user.getTotalPositivePercent())+"%"+"</html>";
+
 				JOptionPane.showMessageDialog(frame,
 						message,"Twitter Statistics", JOptionPane.PLAIN_MESSAGE);
 			}

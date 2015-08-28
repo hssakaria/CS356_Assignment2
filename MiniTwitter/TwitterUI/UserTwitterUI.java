@@ -19,15 +19,10 @@ import javax.swing.border.LineBorder;
 /****************************************************
  * UserTwitterUI
  ****************************************************/
-public class UserTwitterUI extends Observable {
-
-
+public class UserTwitterUI  extends Observable{
+	
 	private  User currentuser;
-	private AdminTwitter admin;
 	private UserController userController;
-
-
-	//	private User currentUser;
 
 	private JFrame frame;
 	private JPanel mainPanel;
@@ -62,8 +57,8 @@ public class UserTwitterUI extends Observable {
 	private List<String> userMessage; 
 
 	private ArrayList<User> listOfAllUsers;
-	private List<Observer> observer;
 	private String message;
+	protected UserTwitterUI userTwitterUI;
 
 
 	/*****************************************************
@@ -106,7 +101,8 @@ public class UserTwitterUI extends Observable {
 	private void initialize(User currentuser) {
 
 		userController = new UserController();
-		
+		userTwitterUI = new UserTwitterUI();
+
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		Color lableColor = Color.red;
 
@@ -172,6 +168,7 @@ public class UserTwitterUI extends Observable {
 				String	id = userIDTextField.getText();
 
 				if(!id.equals("")){
+
 					User currentFolloingUser =	userController.getThisObject(id, listOfAllUsers);
 
 					System.out.println(" found user -->  " + currentFolloingUser);
@@ -179,8 +176,11 @@ public class UserTwitterUI extends Observable {
 					if(currentFolloingUser != null){
 
 						currentuser.addFollowing(currentFolloingUser );
-						currentFolloingUser.addObserver(currentFolloingUser);
-
+//						currentuser.addObserver(userTwitterUI);
+						
+						
+//						System.out.println("Observer   " + currentFolloingUser.countObservers());
+						
 						userIDTextField.setText("");
 
 						addFollowingsToJList();
@@ -309,18 +309,22 @@ public class UserTwitterUI extends Observable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				String userMessage = tweetMsgTA.getText();
+				String getuserMessage = tweetMsgTA.getText();
 
-				if(!userMessage.equals("")){
+				if(!getuserMessage.equals("")){
 
-					currentuser.addMessage(userMessage);
+					currentuser.addMessage(getuserMessage);
 
-					String selfMessage = currentuser + ": " + userMessage;
+					userMessage =  currentuser.getNewsFeed(); 
 
-					defaultNewsFeedListModel.addElement(selfMessage);
+					defaultNewsFeedListModel.clear();
 
+					for(String message : userMessage){
+						defaultNewsFeedListModel.addElement(message);
+					}
 
-					addNewFeedToList();
+					newsFeedList = new JList<String>(defaultNewsFeedListModel);
+
 
 					tweetMsgTA.setText("");
 					tweetMsgTA.setFocusable(true);
@@ -369,7 +373,7 @@ public class UserTwitterUI extends Observable {
 		newsFeedList = null;
 		defaultNewsFeedListModel = new DefaultListModel<String>();
 
-		addNewFeedToList();
+		//		addNewFeedToList();
 
 		newsFeedList = new JList<String>(defaultNewsFeedListModel);
 
@@ -384,14 +388,14 @@ public class UserTwitterUI extends Observable {
 
 		frame.getContentPane().add(mainPanel);
 		frame.pack();
-		frame.setLocationRelativeTo(null); /* location center */
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}
 
 	private  void addFollowingsToJList() {
 
-		usersFollowingList = currentuser.getFollowingsList(); // get the list<User> from User
+		usersFollowingList = currentuser.getFollowingsList(); 
 
 		defaultFollowingListModel.clear();
 
@@ -404,32 +408,29 @@ public class UserTwitterUI extends Observable {
 
 	}
 
-	private void addNewFeedToList() {
-
-		userMessage =  currentuser.getNewsFeed(); 
-
-		System.out.println("---   "+ userMessage);
-
-		defaultNewsFeedListModel.clear();
-
-		defaultNewsFeedListModel.addElement(message);
-
-		newsFeedList = new JList<String>(defaultNewsFeedListModel);
-
-	}
+	//	private void addNewFeedToList() {
+	//
+	//		userMessage =  currentuser.getNewsFeed(); 
+	//
+	//		System.out.println("newsFeed:  "+ userMessage);
+	//
+	//		defaultNewsFeedListModel.clear();
+	//
+	//		for(String message : userMessage){
+	//			defaultNewsFeedListModel.addElement(message);
+	//		}
+	//		newsFeedList = new JList<String>(defaultNewsFeedListModel);
+	//
+	//	}
 
 	public void updateFollowers(String newMessage) {
-
-		userMessage = new ArrayList<String>();
-
-		userMessage.add(newMessage);
 
 		System.out.println("New Posted Message: "+ newMessage);
 
 		defaultNewsFeedListModel = new DefaultListModel<String>();
 
 		defaultNewsFeedListModel.clear();
-		defaultNewsFeedListModel.addElement(message);
+		defaultNewsFeedListModel.addElement(newMessage);
 
 		newsFeedList = new JList<String>(defaultNewsFeedListModel);
 
@@ -442,5 +443,6 @@ public class UserTwitterUI extends Observable {
 	public void setCurrentuser(User currentuser) {
 		this.currentuser = currentuser;
 	}
+
 
 }

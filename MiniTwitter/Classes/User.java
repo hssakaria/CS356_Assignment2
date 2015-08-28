@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.DefaultListModel;
+
 /*
  * Leaf Node
  */
@@ -22,31 +24,8 @@ public class User  extends Observable implements Visitable, Observer{
 	private List<String> messagesList;
 	private List<String> newsFeed;
 	private TwitterVisitors twitterVisitors;
-	private UserTwitterUI userTwitterUI;// = new UserTwitterUI();
-
+	private UserTwitterUI userTwitterUI;
 	private AdminVisitor adminVisitor = new AdminVisitor();
-
-
-	public String getUserID() {
-		return userID;
-	}
-
-	public void setUserID(String userID) {
-		this.userID = userID;
-	}
-	public String getGroupID() {
-		return groupID;
-	}
-	public void setGroupID(String groupID) {
-		this.groupID = groupID;
-	}
-
-	public List<User> getFollowingsList() {
-		return followingsList;
-	}
-	public void setFollowings(List<User> followingsList) {
-		this.followingsList = followingsList;
-	}
 
 	/***********************************************************
 	 * Add user
@@ -63,7 +42,6 @@ public class User  extends Observable implements Visitable, Observer{
 		this.followingsList = new ArrayList<User>();
 		this.newsFeed = new ArrayList<String>();
 		this.messagesList = new ArrayList<String>();
-//		this.addObserver(user);
 
 	}
 
@@ -98,9 +76,11 @@ public class User  extends Observable implements Visitable, Observer{
 	public void addFollowing(User followingUser){
 
 		if(!IsUserExists(followingsList,followingUser)){
-			
+
 			followingsList.add(followingUser);
-			followingUser.addObserver(followingUser);
+			this.addObserver(followingUser);
+
+			System.out.println("Observer "+ this.countObservers());
 
 		}
 
@@ -122,7 +102,6 @@ public class User  extends Observable implements Visitable, Observer{
 		return false;
 	}
 
-
 	public String toString(){
 		return userID;
 	}
@@ -142,7 +121,7 @@ public class User  extends Observable implements Visitable, Observer{
 
 	public void setUserTwitter(UserTwitterUI userTwitterUI){
 		this.userTwitterUI = userTwitterUI;
-		
+
 	}
 	public int getTotalMessages(){
 		return adminVisitor.getTotalMessages();
@@ -166,17 +145,49 @@ public class User  extends Observable implements Visitable, Observer{
 		this.userMessage = userMessage;
 	}
 
+	public String getUserID() {
+		return userID;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+	public String getGroupID() {
+		return groupID;
+	}
+	public void setGroupID(String groupID) {
+		this.groupID = groupID;
+	}
+
+	public List<User> getFollowingsList() {
+		return followingsList;
+	}
+	public void setFollowings(List<User> followingsList) {
+		this.followingsList = followingsList;
+	}
+
+	public UserTwitterUI getUserTwitterUI() {
+		return userTwitterUI;
+	}
+
+	public void setUserTwitterUI(UserTwitterUI userTwitterUI) {
+		this.userTwitterUI = userTwitterUI;
+	}
 
 	@Override
-	public void update(Observable user, Object message) {
+	public void update(Observable userTwitter, Object message) {
 
-		System.out.println("user:" + user+ "   " +   "updated --> "+ message);
+		if(userTwitter instanceof User){
 
-		if(message instanceof String) {
-			String newMessage = (String)(user +":  "+message);
+			System.out.println("followeruser:" + user + "\t" +   "updated by  --> "+message);
 
-			userTwitterUI.updateFollowers(newMessage);
-		} 
+			if(message instanceof String) {
+
+				String newMessage = (String)(message);
+				((User) userTwitter).getUserTwitterUI().updateFollowers(newMessage);
+
+			} 
+		}
 	}
 
 }
