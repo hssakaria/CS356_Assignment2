@@ -1,0 +1,28 @@
+
+public class CreateUser implements UserInterface {
+
+
+	private String newUserID;
+	
+
+
+	public CreateUser(String newUserID) {
+		this.newUserID = newUserID;
+		}
+
+	@Override
+	public String getUserID() {
+		return newUserID;
+	}
+
+	@Override
+	public void add(UserInterface user) {}
+
+	@Override
+	public void print() {
+		System.out.println("UserID: " + newUserID);		
+	}
+
+	
+
+}

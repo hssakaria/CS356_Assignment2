@@ -1,0 +1,33 @@
+1440294863233	Encapsulate field 'groupUser'
+1440295584395	Rename type 'TreeComponent'
+1440481370823	Encapsulate field 'currentUser'
+1440487188737	Encapsulate field 'message'
+1440527820478	Delete element
+1440527994155	Delete element
+1440529778243	Delete element
+1440529896884	Delete element
+1440530155285	Delete element
+1440542711701	Encapsulate field 'users'
+1440545732647	Delete element
+1440545833910	Delete element
+1440545869212	Delete element
+1440546091425	Delete element
+1440546102067	Move compilation unit
+1440546146740	Move compilation unit
+1440546164242	Rename source folder 'ui'
+1440546207205	Move file
+1440546236751	Move compilation unit
+1440546241971	Move compilation unit
+1440546245191	Move compilation unit
+1440546333262	Move compilation unit
+1440546335668	Move compilation unit
+1440546400016	Rename type 'TweetVisitor'
+1440546807980	Rename type 'TweetVisitors'
+1440547943389	Rename type 'AdminContorller'
+1440555381727	Encapsulate field 'newsFeed'
+1440601272635	Encapsulate field 'listOfUsers'
+1440636428783	Delete element
+1440713204667	Delete element
+1440713209445	Delete element
+1440718601058	Encapsulate field 'userMessage'
+1440741757719	Delete element

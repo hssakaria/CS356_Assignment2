@@ -1,0 +1,95 @@
+import java.awt.*;
+import java.awt.EventQueue;
+
+import javax.swing.*;
+
+public class AdminTwitter {
+	
+
+	private JFrame frame;
+	private JPanel leftPanel;
+	private JPanel rightPanel;
+	private JTree treeView;
+	
+	private JTextArea userIDTextArea;
+	private JTextArea groupIDTextArea;
+	private Button userAddBtn;
+	private Button groupAddBtn;
+	private Button userViewBtn;
+	private Button totalUserBtn;
+	private Button totalGroupBtn;
+	private Button totalMsgBtn;
+	private Button positiveWordBtn;
+	
+
+	/***************************
+	 * Launch the application.
+	 ***************************/
+	public void AdminWindow() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					
+					AdminTwitter window = new AdminTwitter();
+					
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/******************************
+	 * Create the application.
+	 *****************************/
+	public AdminTwitter() {
+		initialize();
+	}
+
+	/**************************************
+	 * Initialize the contents of the frame.
+	 **************************************/
+	private void initialize() {
+		
+		
+		treeView = new JTree();
+		userIDTextArea = new JTextArea();
+		groupIDTextArea = new JTextArea();
+		userAddBtn = new Button();
+		groupAddBtn = new Button();
+		userViewBtn = new Button();
+		totalUserBtn = new Button();
+		totalGroupBtn = new Button();
+		totalMsgBtn = new Button();
+		positiveWordBtn = new Button();
+		
+		
+		frame = new JFrame("Mini Twitter by Hetal Sakaria");
+	
+		frame.setSize(550, 350);
+		
+		/*JPanel*/
+		
+
+		rightPanel = new JPanel();
+	
+		leftPanel = new JPanel();
+		JSplitPane pane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);		
+		
+		frame.add(pane);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		frame.setLocationRelativeTo(null); /* location center */
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+}

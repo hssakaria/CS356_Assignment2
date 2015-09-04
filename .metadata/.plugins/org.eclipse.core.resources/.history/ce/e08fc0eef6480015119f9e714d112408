@@ -1,0 +1,72 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+
+public class GroupUser {
+	
+	private String userID;
+	private List<GroupUser> users;// = new ArrayList<User>();
+	//Map<String,List<User>> userMap = new Hashtable<String,List<User>>();
+	
+	//constructor
+//	public User(){
+//		
+//	}
+	public GroupUser(String userID){
+		this.userID = userID;
+		
+		users = new ArrayList<GroupUser>();
+	}
+	
+	public List<GroupUser> getUsers() {
+		return users;
+	}
+
+
+
+	public void add(GroupUser user){		
+			users.add(user);
+		
+	}
+
+	public String getUserID(){
+		return userID;
+	}
+	public List<GroupUser> getUser(){
+		return users;
+	}
+
+	public boolean IsUserIDExits(){//(List<GroupUser> usersList, String newUserID){
+		
+		for(GroupUser gu : users){
+			if(gu.getUserID().equals(userID)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public String toString(){
+		return "User: " + userID;
+	}
+
+
+	public void print() {
+		//System.out.println("GroupUser:  " + users);
+		
+		
+	
+
+		
+		Iterator<GroupUser> userIterator = users.iterator();
+		while(userIterator.hasNext()){
+			GroupUser user = userIterator.next();
+			user.print();
+//			System.out.println("GroupUser:  " + user);
+		}
+		
+	}
+
+}

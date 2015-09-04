@@ -1,0 +1,220 @@
+import java.util.ArrayList;
+import java.util.Enumeration;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
+
+/****************************
+ * Admin Controller.
+ * 
+ * @author hetu
+ *
+ ***************************/
+public class AdminController {
+
+	
+//	/********************************************************
+//	 * Add a new User
+//	 ********************************************************/
+//
+//	private UserComponent currentNode;
+//	private User user;
+//	private User currentUserNode;
+//	private GroupUser group;
+//	private GroupUser rootGroup;
+//	private GroupUser currentGroupUserNode;
+//	private AdminVisitor adminVisitor;
+//	
+//	private ArrayList<User> listOfUsers = new ArrayList<User>();
+//
+//	
+//	
+//	adminVisitor = new AdminVisitor();
+//
+//	public void addNewUser(JFrame frame,String userId, DefaultMutableTreeNode root){
+//
+//		if(IsUserExists(userId, root)){
+//
+//			displayMsgIDExists(frame,"User already exists.");
+//		}
+//		else{
+//			user = new User();
+//			group = getSelectedGroupUserNode();
+//			user.addUser(user, userId, group.getGroupID());
+//			group.addUserToGroup(user);
+//			addObject(user.getUserID(), user);
+//
+//			listOfUsers.add(user.getUser());
+//
+//			// Using Visitor pattern
+//			user.accept(adminVisitor);
+//
+//		}
+//
+//	}
+//	
+//	/********************************************************
+//	 * Add a new GroupUser
+//	 ********************************************************/
+//
+//	protected void addNewGroupUser(JFrame frame,String groupId) {
+//
+//		if(IsUserExists(groupId, root)){
+//
+//			displayMsgIDExists(frame,"Group User already exists!");
+//		}
+//		else{
+//
+//			GroupUser pgroupUser = group;
+//			group=new GroupUser();
+//
+//			if(getParentGroup().equals(null)){
+//
+//				group.setGroup(groupId, pgroupUser);
+//			}
+//			else{
+//				group.setGroup(groupId, (GroupUser)getParentGroup());
+//			}
+//
+//			addObject(group.getGroupID(), group);
+//
+//			// Using Visitor pattern
+//			group.accept(adminVisitor);
+//
+//		}
+//	}
+//
+//	/********************************************************
+//	 * Returns the currently selected node in GroupUser object
+//	 * @return
+//	 ********************************************************/
+//	private GroupUser getSelectedGroupUserNode() {
+//
+//		if ((currentNode != null) && (currentNode instanceof GroupUser)) {
+//			currentGroupUserNode = (GroupUser) currentNode;
+//		}
+//		else {
+//			currentGroupUserNode = rootGroup;
+//		}
+//		return currentGroupUserNode;
+//	}
+//
+//
+//	/********************************************************
+//	 * Display message if userId or GroupId already in the
+//	 * treeView.
+//	 ********************************************************/
+//
+//	private void displayMsgIDExists(JFrame frame, String msg) {
+//
+//		JOptionPane.showMessageDialog (frame, msg, "Message", 
+//				JOptionPane.INFORMATION_MESSAGE);
+//	}
+//	
+//	
+//	public boolean IsUserExists(String id, DefaultMutableTreeNode root){
+//
+//
+//		User currentUser;
+//		GroupUser currentGroupUser;
+//		String currentID =null;
+//
+//		Enumeration en = root.breadthFirstEnumeration();
+//		while(en.hasMoreElements()){
+//
+//			DefaultMutableTreeNode node = (DefaultMutableTreeNode) en.nextElement();
+//			Object currentNode = node.getUserObject();
+//
+//			if(currentNode instanceof User){
+//				currentUser = (User) currentNode;
+//				currentID = currentUser.getUserID();
+//			}
+//			else if(currentNode instanceof GroupUser){
+//				currentGroupUser = (GroupUser) currentNode;
+//				currentID = currentGroupUser.getGroupID();
+//			}
+//
+//			if(currentID.equals(id)){
+//				return  true;
+//			}
+//
+//		}
+//
+//		return false;
+//	}
+//
+//	protected DefaultMutableTreeNode returnNodeToAddUser(DefaultMutableTreeNode node) {
+//
+//		Object thisUser = node.getUserObject();
+//
+//		if( thisUser instanceof GroupUser){
+//
+//			root = node;
+//		}
+//
+//		return root;
+//	}
+//
+//	protected void displayWarningMessage(String warningMsg) {
+//
+//		JOptionPane.showMessageDialog(frame, warningMsg,	
+//				"Warning", JOptionPane.WARNING_MESSAGE);
+//
+//	}
+//
+//	public DefaultMutableTreeNode addObject(String name, Object child) {
+//		parentNode = null;
+//		parentPath = treeView.getSelectionPath();
+//
+//		if (parentPath == null) {
+//			parentNode = root;
+//		} else {
+//			parentNode = 
+//					(DefaultMutableTreeNode) (parentPath.getLastPathComponent());
+//		}
+//
+//		return addObject(parentNode, child, name, true);
+//	}
+//
+//
+//	public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child, String name) {
+//		return addObject(parent, child, name, false);
+//	}
+//
+//
+//	private DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child, String name, boolean visible) {
+//
+//		DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
+//
+//		if (parent == null) {
+//			parent = root;
+//		}
+//
+//		if (parent.getAllowsChildren()) {
+//			if (child instanceof User && parent.getAllowsChildren()) {
+//				childNode.setAllowsChildren(false);
+//				treeModel.insertNodeInto(childNode, parent, parent.getChildCount());
+//			} 
+//			else if (child instanceof GroupUser) {
+//				childNode.setAllowsChildren(true);
+//				treeModel.insertNodeInto(childNode, parent, parent.getChildCount());
+//			}
+//		}
+//
+//		if (visible) {
+//			treeView.scrollPathToVisible(new TreePath(childNode.getPath()));
+//		}
+//		return childNode;
+//	}
+//
+//	// Returns the parent group node
+//	public Object getParentGroup() {
+//		return parentNode.getUserObject();
+//	}
+
+
+	
+
+}

@@ -1,0 +1,9 @@
+1439938735269	Delete element
+1440091366186	Delete element
+1440134076400	Encapsulate field 'userId'
+1440135159446	Encapsulate field 'userid'
+1440181721362	Rename type 'User'
+1440182484192	Rename compilation unit 'UserInterface.java'
+1440197363051	Delete element
+1440257936828	Rename type 'User'
+1440257959058	Rename type 'CreateUser'

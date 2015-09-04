@@ -1,0 +1,187 @@
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.GridLayout;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+
+/****************************************************
+ * UserTwitterUI contains a singleton design pattern.
+ ****************************************************/
+public class UserTwitterUI {
+	
+	private static UserTwitterUI instance = null;
+
+	private JFrame frame;
+	private JPanel mainPanel;
+	private JPanel panel1;
+	private JPanel panel2;
+	private JPanel panel3;
+	private JPanel panel4;
+	private JButton followUserBtn;
+	private JButton postTweetBtn;
+	private JTextField userIDTextField;
+	private JTextArea tweetMsgTA;
+
+	private String userId;
+	/*****************************************************
+	 * Launch the application.
+	 * @param userID 
+	 *****************************************************/
+	public void UserTwitter() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					UserTwitterUI window = new UserTwitterUI();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	/****************************************************
+	 * Return single Instance of a class "UserTwitterUI"
+	 * @param userId 
+	 ****************************************************/
+	public static UserTwitterUI getUserTwitterInstance(){
+		if(instance == null){
+			instance  = new UserTwitterUI();
+		}
+		return instance;
+	}
+
+	/****************************************************
+	 * Create the application.
+	 ****************************************************/
+	public UserTwitterUI(){
+
+		initialize();
+	}
+	public UserTwitterUI(String userId) {
+		this.setUserId(userId);
+	}
+
+	/****************************************************
+	 * Initialize the contents of the frame.
+	 ****************************************************/
+	private void initialize() {
+		
+		Border border = BorderFactory.createLineBorder(Color.BLACK);
+
+		
+		frame = new JFrame("User UI" + userId);
+		
+			mainPanel = new JPanel(new GridLayout(4,1));
+			
+			/*****************************************************
+			 * panel 1 - contains userIDTA and followerBTN
+			 * 			 and added to mainPanel
+			 ****************************************************/
+				panel1 = new JPanel(new GridLayout(1,2));
+					panel1.setBackground(Color.cyan);
+					 
+						userIDTextField = new JTextField(10);
+						userIDTextField.setBorder(BorderFactory.createCompoundBorder(border, 
+					            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+						
+						panel1.add(userIDTextField);
+						
+						followUserBtn = new JButton();
+						followUserBtn.setText("Follow User");
+						followUserBtn.setForeground(Color.BLACK);
+					panel1.add(followUserBtn);	
+				
+			mainPanel.add(panel1);
+			
+			/*****************************************************
+			 * panel 2 - contains  current followers ListView
+			 * 			 and added to mainPanel.
+			 ****************************************************/
+				
+				panel2 = new JPanel();
+					panel2.setBackground(Color.LIGHT_GRAY);
+				
+					  	DefaultListModel followerModel = new DefaultListModel();
+					  	JList followersListView = new JList(followerModel);
+					  	JScrollPane followersSP = new JScrollPane(followersListView);
+						
+					  	for(int i=0; i<12; i++){
+					  		followerModel.addElement("List " + i);
+					  	}
+						
+					panel2.add(followersListView);
+			
+			mainPanel.add(panel2);
+				
+			/*****************************************************
+			 * panel 3 - contains TweetMsgTA and PostTweetBTN
+			 * 			 and added to mainPanel.
+			 ****************************************************/
+				panel3 = new JPanel(new GridLayout(1,2));
+					//panel3.setBackground(Color.cyan);
+						tweetMsgTA = new JTextArea();
+						tweetMsgTA.setText("Tweet Message");
+						tweetMsgTA.setBorder(BorderFactory.createCompoundBorder(border, 
+					            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+						
+						postTweetBtn = new JButton();
+						postTweetBtn.setText("Post Tweet");
+						postTweetBtn.setForeground(Color.BLACK);
+						
+					panel3.add(tweetMsgTA);	
+					panel3.add(postTweetBtn);
+					
+				
+			mainPanel.add(panel3);	
+			/*****************************************************
+			 * panel 4 - contains userIDTA and followerBTN
+			 * 			and added to mainPanel.
+			 ****************************************************/	
+				panel4 = new JPanel();
+					panel4.setBackground(Color.LIGHT_GRAY);
+					
+				  	DefaultListModel newsFeedModel = new DefaultListModel();
+				  	 JList newsFeedListView = new JList(newsFeedModel);
+				  	 JScrollPane newsFeedSP = new JScrollPane( newsFeedListView);
+					
+				  	for(int i=0; i<12; i++){
+				  		newsFeedModel.addElement("News " + i);
+				  	}
+				
+				panel4.add( newsFeedListView);
+			mainPanel.add(panel4);
+		
+					
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		frame.add(mainPanel);
+		frame.setSize(550, 450);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+	
+	
+	
+	/*****************************
+	 * Accessor methods for UserID
+	 * @return
+	 ******************************/
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+}

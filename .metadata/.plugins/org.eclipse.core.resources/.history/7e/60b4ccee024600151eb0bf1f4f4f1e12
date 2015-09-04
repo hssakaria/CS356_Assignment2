@@ -1,0 +1,71 @@
+import java.awt.*;
+import java.awt.EventQueue;
+
+import javax.swing.*;
+
+public class AdminTwitter {
+	
+	private JTree treeView;
+	private JFrame frame;
+	private JTextArea userIDTextArea;
+	private JTextArea groupIDTextArea;
+	private Button userAddBtn;
+	private Button groupAddBtn;
+	private Button userViewBtn;
+	private Button totalUserBtn;
+	private Button totalGroupBtn;
+	private Button totalMsgBtn;
+	private Button positiveWordBtn;
+	
+
+	/**
+	 * Launch the application.
+	 */
+	public void AdminWindow() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					
+					AdminTwitter window = new AdminTwitter();
+					
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public AdminTwitter() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		Button addUserBtn = new Button();
+		JTextArea userIDTA = new JTextArea();
+		JTex
+		
+		frame.setBounds(200, 200, 550, 350);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+}
